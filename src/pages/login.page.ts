@@ -54,11 +54,9 @@ export class LoginPage {
     public constructor(
         private readonly page: Page,
         private readonly _url: string
-    ) {
-        this.goTo(_url);
-    }
+    ) {}
 
-    public async login(email: string, password: string, workerId: number): Promise<void> {
+    public async login(email: string, password: string): Promise<void> {
         if (await this.waitLoadedStateLocator.isVisible()) {
             return;
         }
@@ -66,8 +64,7 @@ export class LoginPage {
         await this.inputEmail.fill(email);
         await this.inputPassword.fill(password);
         await this.btnSubmit.click();
-
-        await this.page.context().storageState({ path: `./.auth/storage-state-worker-${workerId}.json` });
+        // await this.page.waitForTimeout(3000);
     }
 
     public async goTo(path?: string): Promise<void> {

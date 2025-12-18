@@ -12,6 +12,11 @@ interface AtlassianFixture {
 const storageState = (workerId: number): string => `.auth/storage-state-worker-${workerId}.json`;
 
 export const test = base.extend<AtlassianFixture>({
+    configService: async ({ browserName }, use) => {
+        console.log(browserName);
+        const configService = new ConfigService();
+        await use(configService);
+    },
     loggedHomePage: async ({ browser, configService }, use) => {
         const workerId = test.info().workerIndex;
         await authenticateFopHelp(browser, workerId, configService);
@@ -23,17 +28,12 @@ export const test = base.extend<AtlassianFixture>({
             }
         });
         const page = await context.newPage();
-        const loggedHomePage = new LoggedHomePage(page, configService.config.uiConfig.loggedBaseUrl);
-        await use(loggedHomePage);
+        const loggedPage = new LoggedHomePage(page, configService.config.uiConfig.loggedBaseUrl);
+        await use(loggedPage);
 
         // disposal
         await page.close();
         await context.close();
-    },
-    configService: async ({ browserName }, use) => {
-        console.log(browserName);
-        const configService = new ConfigService();
-        await use(configService);
     },
     loginPage: async ({ page, configService }, use) => {
         const loginPage = new LoginPage(page, configService.config.uiConfig.loginBaseUrl);
@@ -41,14 +41,16 @@ export const test = base.extend<AtlassianFixture>({
     }
 });
 
-async function authenticateFopHelp(browser: Browser, workerId: number, configService: ConfigService): Promise<LoginPage | void> {
+async function authenticateFopHelp(browser: Browser, workerId: number, configService: ConfigService): Promise<void> {
     if (fs.existsSync(storageState(workerId))) return;
 
     const context = await browser.newContext();
     const page = await context.newPage();
     const loginPage = new LoginPage(page, configService.config.uiConfig.loginBaseUrl);
-    await loginPage.login(configService.config.auth.login, configService.config.auth.password, workerId);
-    await page.context().storageState({ path: `./.auth/storage-state-worker-${workerId}.json` });
-    // await context.close();
-    return loginPage;
+
+    await loginPage.goTo();
+    await loginPage.login(configService.config.auth.login, configService.config.auth.password);
+
+    await page.context().storageState({ path: storageState(workerId) });
+    await context.close();
 }
