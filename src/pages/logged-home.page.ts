@@ -55,7 +55,6 @@ export class LoggedHomePage {
         private readonly page: Page,
         private readonly _url: string
     ) {
-        this.goTo(_url);
     }
     public get thisPage(): Page {
         return this.page;
