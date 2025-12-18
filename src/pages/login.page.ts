@@ -1,7 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 
 export class LoginPage {
-    private readonly _url = 'https://new.fophelp.pro/';
+    // private readonly _url = 'https://new.fophelp.pro/';
 
     private get signInButton(): Locator {
         return this.page.locator('.signin-button');
@@ -51,7 +51,7 @@ export class LoginPage {
         return this.page.locator('//button[@aria-label="Close modal"]/../h2');
     }
 
-    public constructor(private readonly page: Page) {}
+    public constructor(private readonly page: Page, private readonly _url: string) {}
 
     public async login(email: string, password: string, workerId: number): Promise<void> {
         if (await this.waitLoadedStateLocator.isVisible()) {

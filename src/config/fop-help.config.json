@@ -1,0 +1,9 @@
+{
+    "uiConfig": {
+        "loggedBaseUrl": "https://new.fophelp.pro/",
+        "loginBaseUrl": "https://new.fophelp.pro/"
+    },
+    "apiConfig": {
+        "fopHelpApiUrl": "https://new.fophelp.pro/"
+    }
+}

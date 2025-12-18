@@ -1,16 +1,16 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from '../../src/fixtures/fop-help.fixture';
 import 'dotenv/config';
-import { LoginPage } from '../../src/pages/index';
 
 test.describe('Login page:', () => {
-    let loginPage: LoginPage;
+    // let loginPage: LoginPage;
 
-    test.beforeEach(async ({ page }) => {
-        loginPage = new LoginPage(page);
-        await loginPage.goTo();
-    });
+    // test.beforeEach(async ({ page }) => {
+    //     loginPage = new LoginPage(page, ConfigService);
+    //     await loginPage.goTo();
+    // });
 
-    test('should show error when email, password is empty', async ({ page }) => {
+    test('should show error when email, password is empty', async ({ loginPage, page }) => {
         await loginPage.login('', '', test.info().workerIndex);
         await expect(loginPage.errorEnterEmail).toBeVisible();
         await expect(loginPage.errorEnterEmail).toHaveText('Email is required');
@@ -20,26 +20,26 @@ test.describe('Login page:', () => {
         await page.locator('form').screenshot({ path: 'tests/screenshots/login-error-empty-email-password-form.jpeg' });
     });
 
-    test('should show error when invalid email', async () => {
+    test('should show error when invalid email', async ({ loginPage }) => {
         await loginPage.login('bad-email@try.me', process.env.PASSWORD as string, test.info().workerIndex);
         await expect(loginPage.errorInvalidUsernameOrPassword).toBeVisible();
         await expect(loginPage.errorInvalidUsernameOrPassword).toHaveText('Invalid username or password');
     });
 
-    test('should show error when invalid password', async () => {
+    test('should show error when invalid password', async ({ loginPage }) => {
         await loginPage.login(process.env.EMAIL as string, 'bad-password', test.info().workerIndex);
         await expect(loginPage.errorInvalidUsernameOrPassword).toBeVisible();
         await expect(loginPage.errorInvalidUsernameOrPassword).toHaveText('Invalid username or password');
     });
 
-    test('should help with forgotten password', async () => {
+    test('should help with forgotten password', async ({ loginPage }) => {
         await loginPage.clickSignInButton();
         await expect(loginPage.pageHeader).toBeVisible();
         await expect(loginPage.pageHeader).toHaveText('Вхід до системи');
         await loginPage.linkForgotPassword.click();
     });
 
-    test('should redirect to "register" page', async () => {
+    test('should redirect to "register" page', async ({ loginPage }) => {
         await loginPage.clickSignInButton();
         await expect(loginPage.pageHeader).toBeVisible();
         await expect(loginPage.pageHeader).toHaveText('Вхід до системи');

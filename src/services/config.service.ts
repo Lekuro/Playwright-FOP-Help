@@ -1,59 +1,35 @@
-// import * as dotenv from 'dotenv-safe';
-// import { ApiConfigDto, AuthConfigDto, ConfigDto } from '../models/config/api.config';
-// import * as fs from 'fs';
+import path from 'path';
+import fs from 'fs';
+import { AuthDto, ConfigDto } from '../models/config.dto';
 
-// export class ConfigService {
-//     private _token: string;
+export class ConfigService {
+    public get config(): ConfigDto {
+        return this._config ?? this.initConfig();
+    }
+    private _config: ConfigDto | undefined;
 
-//     public constructor() {
-//         dotenv.config();
-//         this._token = '';
-//     }
+    public constructor() {
+        this.initConfig();
+    }
 
-//     public getConfig(): ConfigDto {
-//         const authConfig = this.getAuthConfig();
-//         const apiConfig = this.getApiConfig();
+    private initConfig(): ConfigDto {
+        this.readFileConfig();
+        this.readAuthConfig();
+        return this._config as ConfigDto;
+    }
 
-//         return {
-//             auth: authConfig,
-//             api: apiConfig
-//         };
-//     }
+    private readAuthConfig(): void {
+        const authConfig: AuthDto = {
+            login: process.env.FOP_HELP_EMAIL as string,
+            password: process.env.FOP_HELP_PASSWORD as string,
+            apiToken: Buffer.from(`${process.env.FOP_HELP_EMAIL}:${process.env.FOP_HELP_PASSWORD}`).toString('base64')
+        };
+        this._config = { ...this._config, ...{ auth: authConfig } } as ConfigDto;
+    }
 
-//     public updateJwtToken(token: string): void {
-//         fs.writeFileSync('token.txt', token);
-//         this._token = token;
-//     }
-
-//     private getAuthConfig(): AuthConfigDto {
-//         if (fs.existsSync('token.txt')) {
-//             this._token = fs.readFileSync('token.txt', 'utf8');
-//         }
-
-//         return {
-//             theDogsApi: {
-//                 apiKey: process.env.DOG_API_KEY ? process.env.DOG_API_KEY : ''
-//             },
-//             rdApi: {
-//                 userName: process.env.RD_USER_NAME ? process.env.RD_USER_NAME : '',
-//                 password: process.env.RD_PASSWORD ? process.env.RD_PASSWORD : '',
-//                 token: this._token
-//             }
-//         };
-//     }
-
-//     private getApiConfig(): ApiConfigDto {
-//         return {
-//             theDogsApi: {
-//                 baseUrl: 'https://api.thedogapi.com/v1'
-//             },
-//             // jira: {
-//             //     baseUrl: 'https://levkoniuk.atlassian.net/rest/api/3'
-//             // },
-//             rd: {
-//                 baseUrl: 'https://lms.academius.io/',
-//                 loginUrl: 'https://lms.robotdreams.cc/login'
-//             }
-//         };
-//     }
-// }
+    private readFileConfig(): void {
+        const filePath = path.resolve(__dirname, '../config/fop-help.config.json');
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        this._config = { ...this._config, ...JSON.parse(fileContent) } as ConfigDto;
+    }
+}

@@ -73,7 +73,6 @@ Login and receive authentication tokens.
 - `X-Access-Token` (HttpOnly, SameSite=Strict)
 - `X-Username` (HttpOnly, SameSite=Strict)
 - `X-Refresh-Token` (HttpOnly, SameSite=Strict)
-
 ---
 
 #### POST `/api/react/authenticate/register`
