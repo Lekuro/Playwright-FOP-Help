@@ -57,6 +57,9 @@ export class LoggedHomePage {
     ) {
         this.goTo(_url);
     }
+    public get thisPage(): Page {
+        return this.page;
+    }
 
     public async isLoggedIn(): Promise<boolean> {
         return this.waitLoadedStateLocator.isVisible();

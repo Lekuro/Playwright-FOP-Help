@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import { AuthDto, ConfigDto } from '../models/config.dto';
+import 'dotenv/config';
 
 export class ConfigService {
     public get config(): ConfigDto {
@@ -25,6 +26,7 @@ export class ConfigService {
             apiToken: Buffer.from(`${process.env.FOP_HELP_EMAIL}:${process.env.FOP_HELP_PASSWORD}`).toString('base64')
         };
         this._config = { ...this._config, ...{ auth: authConfig } } as ConfigDto;
+        // console.log('Auth config loaded', this._config, authConfig);
     }
 
     private readFileConfig(): void {
