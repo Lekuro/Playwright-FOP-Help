@@ -51,7 +51,12 @@ export class LoginPage {
         return this.page.locator('//button[@aria-label="Close modal"]/../h2');
     }
 
-    public constructor(private readonly page: Page, private readonly _url: string) {}
+    public constructor(
+        private readonly page: Page,
+        private readonly _url: string
+    ) {
+        this.goTo(_url);
+    }
 
     public async login(email: string, password: string, workerId: number): Promise<void> {
         if (await this.waitLoadedStateLocator.isVisible()) {

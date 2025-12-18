@@ -54,7 +54,9 @@ export class LoggedHomePage {
     public constructor(
         private readonly page: Page,
         private readonly _url: string
-    ) {}
+    ) {
+        this.goTo(_url);
+    }
 
     public async isLoggedIn(): Promise<boolean> {
         return this.waitLoadedStateLocator.isVisible();
