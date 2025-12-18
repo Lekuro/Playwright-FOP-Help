@@ -9,7 +9,7 @@ interface AtlassianFixture {
     loginPage: LoginPage;
 }
 
-const storageState = (workerId: number): string => `.auth/storage-state-${workerId}.json`;
+const storageState = (workerId: number): string => `.auth/storage-state-worker${workerId}.json`;
 
 export const test = base.extend<AtlassianFixture>({
     loggedHomePage: async ({ browser, configService }, use) => {
@@ -48,6 +48,6 @@ async function authenticateFopHelp(browser: Browser, workerId: number, configSer
     const page = await context.newPage();
     const loginPage = new LoginPage(page, configService.config.uiConfig.loginBaseUrl);
     await loginPage.login(configService.config.auth.login, configService.config.auth.password, workerId);
-    await page.context().storageState({ path: storageState(workerId) });
+    await page.context().storageState({ path: `./.auth/storage-state-worker-${workerId}.json` });
     await context.close();
 }
