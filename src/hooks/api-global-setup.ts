@@ -8,7 +8,7 @@ export default async function globalSetup(): Promise<void> {
 
     try {
         const loginData: LoginRequestDto = {
-            username: apiWorld.configService.config.auth.login,
+            username: apiWorld.configService.config.auth.email,
             password: apiWorld.configService.config.auth.password
         };
 
@@ -21,29 +21,31 @@ export default async function globalSetup(): Promise<void> {
         }
 
         console.log('✅ Логін успішний!');
-        console.log('🔑 Токен отримано:', loginJsonResponse.token);
+        // console.log('🔑 Токен отримано:', loginJsonResponse.token);
 
         // Зберігаємо токен та cookies у process.env
-        process.env.AUTH_TOKEN = loginJsonResponse.token;
-        process.env.AUTH_EXPIRATION = loginJsonResponse.expiration;
+        process.env.FOP_HELP_TOKEN = loginJsonResponse.token;
+        process.env.TOKEN_EXPIRATION = loginJsonResponse.expiration;
         process.env.REFRESH_TOKEN = loginJsonResponse.refreshToken;
+        apiWorld.configService.config.auth.apiToken = loginJsonResponse.token;
 
         // Отримуємо cookies з response headers
         const setCookieHeader = response.headers.get('set-cookie');
         if (setCookieHeader) {
             process.env.COOKIES = setCookieHeader;
-            console.log('🍪 Cookies отримано:');
-            console.log(setCookieHeader);
+            // console.log('🍪 Cookies отримано:', setCookieHeader);
+            apiWorld.configService.config.auth.cookies = setCookieHeader;
+            // console.log('🍪 Cookies збережено в конфігурації', apiWorld.configService.config);
         }
 
         // Виводимо всі збережені дані
-        console.log('\n📦 Збережені в process.env:');
-        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        console.log('🔑 AUTH_TOKEN:', process.env.AUTH_TOKEN?.substring(0, 30) + '...');
-        console.log('⏰ AUTH_EXPIRATION:', process.env.AUTH_EXPIRATION);
-        console.log('🔄 REFRESH_TOKEN:', process.env.REFRESH_TOKEN?.substring(0, 30) + '...');
-        console.log('🍪 COOKIES:', process.env.COOKIES ? 'Наявні' : 'Відсутні');
-        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+        // console.log('\n📦 Збережені в process.env:');
+        // console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        // console.log('🔑 AUTH_TOKEN:', process.env.AUTH_TOKEN?.substring(0, 30) + '...');
+        // console.log('⏰ AUTH_EXPIRATION:', process.env.AUTH_EXPIRATION);
+        // console.log('🔄 REFRESH_TOKEN:', process.env.REFRESH_TOKEN?.substring(0, 30) + '...');
+        // console.log('🍪 COOKIES:', process.env.COOKIES ? 'Наявні' : 'Відсутні');
+        // console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
 
         console.log('✨ Глобальний хук завершено');
     } catch (error) {

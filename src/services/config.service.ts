@@ -21,9 +21,10 @@ export class ConfigService {
 
     private readAuthConfig(): void {
         const authConfig: AuthDto = {
-            login: process.env.FOP_HELP_EMAIL as string,
+            email: process.env.FOP_HELP_EMAIL as string,
             password: process.env.FOP_HELP_PASSWORD as string,
-            apiToken: Buffer.from(`${process.env.FOP_HELP_EMAIL}:${process.env.FOP_HELP_PASSWORD}`).toString('base64')
+            apiToken: process.env.FOP_HELP_TOKEN as string,
+            cookies: process.env.COOKIES as string
         };
         this._config = { ...this._config, ...{ auth: authConfig } } as ConfigDto;
         // console.log('Auth config loaded', this._config, authConfig);

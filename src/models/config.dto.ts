@@ -5,9 +5,10 @@ export interface ConfigDto {
 }
 
 export interface AuthDto {
-    login: string;
+    email: string;
     password: string;
-    apiToken: string;
+    apiToken?: string;
+    cookies?: string;
 }
 
 export interface UiConfigDto {
