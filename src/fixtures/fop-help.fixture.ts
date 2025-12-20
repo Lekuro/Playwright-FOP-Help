@@ -15,6 +15,7 @@ export const test = base.extend<AtlassianFixture>({
     configService: async ({ browserName }, use) => {
         console.log(browserName);
         const configService = new ConfigService();
+        // console.log('Config loaded for tests:', configService.config);
         await use(configService);
     },
     loggedHomePage: async ({ browser, configService }, use) => {
@@ -50,7 +51,7 @@ async function authenticateFopHelp(browser: Browser, workerId: number, configSer
     const loginPage = new LoginPage(page, configService.config.uiConfig.loginBaseUrl);
 
     await loginPage.goTo();
-    await loginPage.login(configService.config.auth.login, configService.config.auth.password);
+    await loginPage.login(configService.config.auth.email, configService.config.auth.password);
 
     await page.context().storageState({ path: storageState(workerId) });
     await context.close();

@@ -4,6 +4,7 @@ import { AuthDto, ConfigDto } from '../models/config.dto';
 import 'dotenv/config';
 
 export class ConfigService {
+    private static iterator = 0;
     public get config(): ConfigDto {
         return this._config ?? this.initConfig();
     }
@@ -16,6 +17,8 @@ export class ConfigService {
     private initConfig(): ConfigDto {
         this.readFileConfig();
         this.readAuthConfig();
+        ConfigService.iterator++;
+        // console.log(`ConfigService initialized ${ConfigService.iterator} time(s)`);
         return this._config as ConfigDto;
     }
 

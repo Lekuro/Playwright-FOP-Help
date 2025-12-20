@@ -1,10 +1,11 @@
 import { IApiService } from '../services/abstractions/i-api-service';
 import { LoginRequestDto, LoginResponseDto } from '../models/api-models/index.dto';
+// import { APIResponse } from 'playwright';
 // import * as fs from 'fs';
 
 export class LoginApi {
-    public constructor(private readonly apiService: IApiService<Response>) {}
-    public async login(requestBody: LoginRequestDto): Promise<[Response, LoginResponseDto]> {
+    public constructor(private readonly apiService: IApiService<Response /* | APIResponse*/>) {}
+    public async login(requestBody: LoginRequestDto): Promise<[Response /*| APIResponse*/, LoginResponseDto]> {
         const response = await this.apiService.post('/api/react/authenticate/login', requestBody);
         const responseBody = (await response.json()) as LoginResponseDto;
         return [response, responseBody];

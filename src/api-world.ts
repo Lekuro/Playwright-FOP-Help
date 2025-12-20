@@ -3,9 +3,8 @@ import { LoginApi } from './api-objects/index.api';
 import { ConfigService } from './services/config.service';
 import { FetchApiService } from './services/fetch-api.service';
 import { IApiService } from './services/abstractions/i-api-service';
-// import { RdApi } from './apis/rd/rd.api';
-// import { PlaywrightApiService } from './services/playwright-api.service';
-// import { APIResponse } from 'playwright';
+import { PlaywrightApiService } from './services/playwright-api.service';
+import { APIResponse } from 'playwright';
 
 export class ApiWorld {
     public get loginApi(): LoginApi {
@@ -34,14 +33,9 @@ export class ApiWorld {
     // }
 
     private _loginApi: LoginApi;
-
-    // private _imagesApi?: TheDogImageApi;
-    // private _jiraApi?: JiraApi;
-    // private _rdApi?: RdApi;
-    // private rdApiInstance?: RdApi;
     private _theLoginFetchApiService: IApiService<Response>;
     // private _jiraApiService: IApiService<Response | APIResponse>;
-    // private _rdApiService: IApiService<APIResponse>;
+    private _theLoginPlaywrightApiService: IApiService<APIResponse>;
     private _configService: ConfigService;
 
     public constructor() {
@@ -49,13 +43,9 @@ export class ApiWorld {
         const config = this._configService.config;
 
         this._theLoginFetchApiService = new FetchApiService(config.apiConfig.fopHelpApiUrl, {});
-
-        // const jiraBase64token = Buffer.from(`${config.auth.jiraApi.userName}:${config.auth.jiraApi.token}`).toString('base64');
-        // this._jiraApiService = new FetchApiService(config.api.jira.baseUrl, { basicToken: jiraBase64token });
+        this._theLoginPlaywrightApiService = new PlaywrightApiService(config.apiConfig.fopHelpApiUrl, {});
 
         this._loginApi = new LoginApi(this._theLoginFetchApiService);
-
-        // this._rdApiService = new PlaywrightApiService(config.api.rd.baseUrl, { jwtToken: config.auth.rdApi.token });
-        // this.rdApiInstance = new RdApi(this._rdApiService);
+        // this._loginApi = new LoginApi(this._theLoginPlaywrightApiService);
     }
 }
