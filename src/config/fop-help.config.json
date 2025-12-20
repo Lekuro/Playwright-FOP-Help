@@ -4,6 +4,6 @@
         "loginBaseUrl": "https://new.fophelp.pro/"
     },
     "apiConfig": {
-        "fopHelpApiUrl": "https://new.fophelp.pro/"
+        "fopHelpApiUrl": "https://new.fophelp.pro"
     }
 }
