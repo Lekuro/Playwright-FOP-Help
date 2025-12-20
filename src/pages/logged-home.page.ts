@@ -7,7 +7,7 @@ export class LoggedHomePage {
     //     return this.page.locator('.signin-button');
     // }
 
-    private get waitLoadedStateLocator(): Locator {
+    private get isLoggedInLocator(): Locator {
         return this.page.locator('.user-info');
     }
 
@@ -61,7 +61,7 @@ export class LoggedHomePage {
     }
 
     public async isLoggedIn(): Promise<boolean> {
-        return this.waitLoadedStateLocator.isVisible();
+        return this.isLoggedInLocator.isVisible();
     }
 
     // public async login(email: string, password: string, workerId: number): Promise<void> {

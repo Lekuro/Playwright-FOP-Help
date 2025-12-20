@@ -29,6 +29,7 @@ export const test = base.extend<AtlassianFixture>({
         });
         const page = await context.newPage();
         const loggedPage = new LoggedHomePage(page, configService.config.uiConfig.loggedBaseUrl);
+        await loggedPage.goTo();
         await use(loggedPage);
 
         // disposal

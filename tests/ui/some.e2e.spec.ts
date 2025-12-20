@@ -3,7 +3,6 @@ import { test } from '../../src/fixtures/fop-help.fixture';
 
 test.describe('fixture-based test example', { tag: ['@fixture'] }, () => {
     test('has title', async ({ loggedHomePage }) => {
-        await loggedHomePage.goTo();
         const isLogged = await loggedHomePage.isLoggedIn();
         await loggedHomePage.thisPage.waitForTimeout(3000);
         expect(isLogged).toBeTruthy();

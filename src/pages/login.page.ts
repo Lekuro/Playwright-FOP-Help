@@ -7,7 +7,7 @@ export class LoginPage {
         return this.page.locator('.signin-button');
     }
 
-    private get waitLoadedStateLocator(): Locator {
+    private get isLoggedInLocator(): Locator {
         return this.page.locator('.user-info');
     }
 
@@ -57,19 +57,19 @@ export class LoginPage {
     ) {}
 
     public async login(email: string, password: string): Promise<void> {
-        if (await this.waitLoadedStateLocator.isVisible()) {
+        if (await this.isLoggedInLocator.isVisible()) {
             return;
         }
         await this.signInButton.click();
         await this.inputEmail.fill(email);
         await this.inputPassword.fill(password);
         await this.btnSubmit.click();
+        await this.isLoggedInLocator.waitFor();
         // await this.page.waitForTimeout(3000);
     }
 
     public async goTo(path?: string): Promise<void> {
         await this.page.goto(`${this._url}${path}`);
-        // await this.waitLoadedStateLocator.waitFor(); //{ state: 'visible' }
     }
 
     public async clickSignInButton(): Promise<void> {
