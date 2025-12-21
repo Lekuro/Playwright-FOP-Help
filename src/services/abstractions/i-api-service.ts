@@ -3,4 +3,5 @@ export interface IApiService<T> {
     post(uri: string, body: unknown, headers?: Record<string, string>): Promise<T>;
     postForm(uri: string, formData: FormData, headers?: Record<string, string>): Promise<T>;
     put(uri: string, body: unknown, headers?: Record<string, string>): Promise<T>;
+    delete(uri: string, headers?: Record<string, string>): Promise<T>;
 }
