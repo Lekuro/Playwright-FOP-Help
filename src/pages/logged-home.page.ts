@@ -52,13 +52,9 @@ export class LoggedHomePage {
     }
 
     public constructor(
-        private readonly page: Page,
+        public page: Page,
         private readonly _url: string
-    ) {
-    }
-    public get thisPage(): Page {
-        return this.page;
-    }
+    ) {}
 
     public async isLoggedIn(): Promise<boolean> {
         return this.isLoggedInLocator.isVisible();

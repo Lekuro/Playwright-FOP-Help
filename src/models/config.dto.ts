@@ -9,7 +9,8 @@ export interface AuthDto {
     apiEmail: string;
     password: string;
     apiToken?: string;
-    cookies?: string;
+    apiCookies?: string;
+    uiCookies?: string;
 }
 
 export interface UiConfigDto {

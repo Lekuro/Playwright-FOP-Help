@@ -44,8 +44,7 @@ export class ApiWorld {
         // console.log('🌐 Ініціалізація ApiWorld з конфігурацією:', config);
         this._theFetchApiService = new FetchApiService(config.apiConfig.fopHelpApiUrl, {});
         this._theLoggedFetchApiService = new FetchApiService(config.apiConfig.fopHelpApiUrl, {
-            cookies: config.auth.cookies,
-            bearerToken: config.auth.apiToken
+            cookies: config.auth.apiCookies
         });
         // this._theLoginPlaywrightApiService = new PlaywrightApiService(config.apiConfig.fopHelpApiUrl, {});
 

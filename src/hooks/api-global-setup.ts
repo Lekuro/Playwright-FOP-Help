@@ -32,10 +32,31 @@ export default async function globalSetup(): Promise<void> {
         // Отримуємо cookies з response headers
         const setCookieHeader = response.headers.get('set-cookie');
         if (setCookieHeader) {
-            process.env.COOKIES = setCookieHeader;
-            // console.log('🍪 Cookies отримано:', setCookieHeader);
-            apiWorldLogin.configService.config.auth.cookies = setCookieHeader;
-            console.log('🍪 Cookies збережено в конфігурації', apiWorldLogin.configService.config);
+            // Витягуємо лише ім'я=значення, без параметрів (expires, path, samesite, httponly)
+            // let cookieValue = setCookieHeader
+            //     .split(';')
+            //     .filter((part) => {
+            //         part.trim();
+            //         return part.includes('X-');
+            //     })
+            //     .join('; ');
+            // while (cookieValue.includes(' httponly')) {
+            //     cookieValue = cookieValue.replace(' httponly, ', '');
+            // }
+            // cookieValue = cookieValue.replace(' samesite=strict, ', '');
+            let setCookieHeaders = setCookieHeader;
+            const cookiesArray = [];
+            while (setCookieHeaders.includes('X-')) {
+                const startIndex = setCookieHeaders.indexOf('X-');
+                const endIndex = setCookieHeaders.indexOf(';', startIndex);
+                const cookie = endIndex !== -1 ? setCookieHeaders.substring(startIndex, endIndex) : setCookieHeader.substring(startIndex);
+                cookiesArray.push(cookie.trim());
+                setCookieHeaders = setCookieHeaders.substring(endIndex + 1);
+            }
+            const cookieValue = cookiesArray.join('; ');
+            process.env.API_COOKIES = cookieValue;
+            apiWorldLogin.configService.config.auth.apiCookies = cookieValue;
+            console.log('🍪 Cookies збережено:', cookieValue);
         }
 
         // Виводимо всі збережені дані
