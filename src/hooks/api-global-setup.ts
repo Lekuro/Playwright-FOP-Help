@@ -1,20 +1,20 @@
 import { ApiWorld } from '../api-world';
 import { ILoginRequestDto } from '../models/api-models/login.dto';
 
-export const apiWorldLogin = new ApiWorld();
+const apiWorld = new ApiWorld();
 
 export default async function globalSetup(): Promise<void> {
     console.log('🚀 Запуск глобального хука');
 
     try {
         const loginData: ILoginRequestDto = {
-            username: apiWorldLogin.configService.config.auth.apiEmail,
-            password: apiWorldLogin.configService.config.auth.password
+            username: apiWorld.configService.config.auth.apiEmail,
+            password: apiWorld.configService.config.auth.password
         };
 
         console.log('🔐 Спроба логіну...');
 
-        const [response, loginJsonResponse] = await apiWorldLogin.loginApi.login(loginData);
+        const [response, loginJsonResponse] = await apiWorld.loginApi.login(loginData);
 
         if (!response.ok) {
             throw new Error(`Помилка логіну: ${response.status} ${response.statusText}`);
@@ -27,7 +27,7 @@ export default async function globalSetup(): Promise<void> {
         process.env.FOP_HELP_TOKEN = loginJsonResponse.token;
         process.env.TOKEN_EXPIRATION = loginJsonResponse.expiration;
         process.env.REFRESH_TOKEN = loginJsonResponse.refreshToken;
-        apiWorldLogin.configService.config.auth.apiToken = loginJsonResponse.token;
+        apiWorld.configService.config.auth.apiToken = loginJsonResponse.token;
 
         // Отримуємо cookies з response headers
         const setCookieHeader = response.headers.get('set-cookie');
@@ -55,8 +55,8 @@ export default async function globalSetup(): Promise<void> {
             }
             const cookieValue = cookiesArray.join('; ');
             process.env.API_COOKIES = cookieValue;
-            apiWorldLogin.configService.config.auth.apiCookies = cookieValue;
-            console.log('🍪 Cookies збережено:', cookieValue);
+            apiWorld.configService.config.auth.apiCookies = cookieValue;
+            // console.log('🍪 Cookies збережено:', cookieValue);
         }
 
         // Виводимо всі збережені дані
@@ -74,5 +74,4 @@ export default async function globalSetup(): Promise<void> {
         throw error;
     }
 }
-const apiWorld = new ApiWorld();
 export { apiWorld };

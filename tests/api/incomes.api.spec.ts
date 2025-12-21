@@ -13,6 +13,8 @@ test.describe('Incomes API Tests', () => {
         await test.step('verify response status and body', () => {
             expect(response.status).toBe(200);
             expect(response.statusText).toBe('OK');
+            expect(response.ok).toBeTruthy();
+            expect(jsonBody).toBeDefined();
             console.log('Received response:', response, '\nResponse Body:', jsonBody);
         });
         await test.step('verify cookies', () => {

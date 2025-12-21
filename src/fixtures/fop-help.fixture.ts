@@ -8,7 +8,7 @@ interface AtlassianFixture {
     loggedHomePage: LoggedHomePage;
     configService: ConfigService;
     loginPage: LoginPage;
-    apiWorld: typeof apiWorld;
+    // apiWorld: typeof apiWorld;
 }
 
 const storageState = (workerId: number): string => `.auth/storage-state-worker-${workerId}.json`;
@@ -30,25 +30,14 @@ export const test = base.extend<AtlassianFixture>({
                 dir: 'test-results/videos'
             }
         });
+        const setCookies = await context
+            .cookies()
+            .then((cookiesArray) => cookiesArray.map((cookie) => `${cookie.name}=${cookie.value}`).join('; '));
+
+        apiWorld.configService.config.auth.uiCookies = setCookies;
+        process.stderr.write(`🍪 Cookie from fixture: ${setCookies}\n`);
         const page = await context.newPage();
         const loggedPage = new LoggedHomePage(page, configService.config.uiConfig.loggedBaseUrl);
-        // Інтерсептор для перехоплення всіх відповідей
-        await page.route(configService.config.uiConfig.loginBaseUrl, async (route) => {
-            // const response = await route.continue();
-            const response = await route.fetch();
-            console.log(`➡️ Перехоплено відповідь: ${response} `);
-            // Витягуємо Set-Cookie з заголовків відповіді
-            const setCookie = response.headers()['set-cookie'];
-            if (setCookie) {
-                console.log('🍪 Перехоплено Set-Cookie:', setCookie);
-                process.env.PLAYWRIGHT_COOKIES = setCookie;
-                // configService.config.auth.uiCookies = setCookie;
-                apiWorld.configService.config.auth.uiCookies = setCookie;
-                console.log('🍪 Збережено cookies в конфігурації:', configService.config);
-            }
-
-            return response;
-        });
         await loggedPage.goTo();
         await use(loggedPage);
 
@@ -59,26 +48,6 @@ export const test = base.extend<AtlassianFixture>({
     loginPage: async ({ page, configService }, use) => {
         const loginPage = new LoginPage(page, configService.config.uiConfig.loginBaseUrl);
         await use(loginPage);
-    },
-    apiWorld: async ({ configService, loggedHomePage }, use) => {
-        // Інтерсептор для перехоплення всіх відповідей
-        await loggedHomePage.page.route(configService.config.uiConfig.loginBaseUrl, async (route) => {
-            // const response = await route.continue();
-            const response = await route.fetch();
-            console.log(`➡️ Перехоплено відповідь: ${response} `);
-            // Витягуємо Set-Cookie з заголовків відповіді
-            const setCookie = response.headers()['set-cookie'];
-            if (setCookie) {
-                console.log('🍪 Перехоплено Set-Cookie:', setCookie);
-                process.env.PLAYWRIGHT_COOKIES = setCookie;
-                // configService.config.auth.uiCookies = setCookie;
-                apiWorld.configService.config.auth.uiCookies = setCookie;
-                console.log('🍪 Збережено cookies в конфігурації:', configService.config);
-            }
-
-            return setCookie;
-        });
-        await use(apiWorld);
     }
 });
 
