@@ -43,7 +43,13 @@ export default defineConfig({
     projects: [
         {
             name: 'chromium',
-            use: { ...devices['Desktop Chrome'], headless: false } // , storageState: './.auth/storage-state-worker-0.json'
+            testMatch: [
+                '**/incomes.api.spec.ts', // Перші
+                '**/api/*', // Другі
+                '**/ui/*' // Треті
+                // '**/authenticate.api.spec.ts' // Останні
+            ],
+            use: { ...devices['Desktop Chrome'], headless: false }
         }
 
         // {
