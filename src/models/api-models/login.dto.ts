@@ -2,7 +2,7 @@
  * Login Request DTO
  * Used for authentication endpoint: POST /api/react/authenticate/login
  */
-export interface LoginRequestDto {
+export interface ILoginRequestDto {
     username: string;
     password: string;
 }
@@ -11,8 +11,13 @@ export interface LoginRequestDto {
  * Login Response DTO
  * Response from: POST /api/react/authenticate/login
  */
-export interface LoginResponseDto {
+export interface ILoginResponseDto {
     token: string;
     expiration: string;
     refreshToken: string;
+}
+
+export interface IShowUserInfoResponseDto {
+    username: string;
+    token: string;
 }

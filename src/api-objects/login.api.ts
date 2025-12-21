@@ -1,42 +1,21 @@
 import { IApiService } from '../services/abstractions/i-api-service';
-import { LoginRequestDto, LoginResponseDto } from '../models/api-models/index.dto';
+import { ILoginRequestDto, ILoginResponseDto, IShowUserInfoResponseDto } from '../models/api-models/index.dto';
 // import { APIResponse } from 'playwright';
 // import * as fs from 'fs';
 
 export class LoginApi {
     public constructor(private readonly apiService: IApiService<Response /* | APIResponse*/>) {}
-    public async login(requestBody: LoginRequestDto): Promise<[Response /*| APIResponse*/, LoginResponseDto]> {
+    public async login(requestBody: ILoginRequestDto): Promise<[Response /*| APIResponse*/, ILoginResponseDto]> {
         const response = await this.apiService.post('/api/react/authenticate/login', requestBody);
-        const responseBody = (await response.json()) as LoginResponseDto;
+        const responseBody = (await response.json()) as ILoginResponseDto;
         return [response, responseBody];
     }
 
-    // public async uploadImage(imagePath: string, subId?: string, breeds?: string[]): Promise<[Response, ImageDto]> {
-    //     const formData = new FormData();
-    //     const file = fs.readFileSync(imagePath);
-    //     // node 24.x
-    //     const binaryFile = new File([new Uint8Array(file)], 'the_dog_1.jpg', { type: 'image/jpeg' });
+    public async showUserInfo(): Promise<[Response, IShowUserInfoResponseDto]> {
+        const response = await this.apiService.get('/api/react/authenticate/show');
+        console.log('👤 showUserInfo response status:', response.status, response);
+        const responseBody = (await response.json()) as IShowUserInfoResponseDto;
 
-    //     // node 22.x
-    //     // const binaryFile = new File([file], 'the_dog_1.jpg', { type: 'image/jpeg' });
-
-    //     formData.append('file', binaryFile);
-    //     subId && formData.append('sub_id', subId);
-    //     breeds && formData.append('breeds', breeds.join(','));
-    //     console.log(breeds);
-
-    //     const response = await this.apiService.postForm('/images/upload', formData);
-    //     // const response2 = await fetch (`${this.baseUrl}/images/upload`, { method: 'POST', body: formData });
-
-    //     const imageResponse = await response.json();
-
-    //     return [response, imageResponse];
-    // }
-
-    // public async getMyImages(): Promise<[Response, ImageDto[]]> {
-    //     const response = await this.apiService.get('/images');
-    //     const images = await response.json();
-
-    //     return [response, images];
-    // }
+        return [response, responseBody];
+    }
 }

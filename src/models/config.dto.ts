@@ -5,7 +5,8 @@ export interface ConfigDto {
 }
 
 export interface AuthDto {
-    email: string;
+    uiEmail: string;
+    apiEmail: string;
     password: string;
     apiToken?: string;
     cookies?: string;

@@ -24,7 +24,8 @@ export class ConfigService {
 
     private readAuthConfig(): void {
         const authConfig: AuthDto = {
-            email: process.env.FOP_HELP_EMAIL as string,
+            uiEmail: process.env.FOP_HELP_UI_EMAIL as string,
+            apiEmail: process.env.FOP_HELP_API_EMAIL as string,
             password: process.env.FOP_HELP_PASSWORD as string,
             apiToken: process.env.FOP_HELP_TOKEN as string,
             cookies: process.env.COOKIES as string

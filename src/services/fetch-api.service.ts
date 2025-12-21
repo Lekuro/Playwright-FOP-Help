@@ -7,6 +7,7 @@ export class FetchApiService implements IApiService<Response> {
             apiKey?: string;
             basicToken?: string;
             bearerToken?: string;
+            cookies?: string;
         }
     ) {}
 
@@ -19,9 +20,11 @@ export class FetchApiService implements IApiService<Response> {
                   .join('&')
             : '';
         const url = `${this.baseUrl}${uri}${queries}`;
+        console.log('🌐 Fetch GET URL headers:', defaultHeaders);
         return await fetch(url, {
             method: 'GET',
-            headers: defaultHeaders
+            headers: defaultHeaders,
+            credentials: 'include'
         });
     }
 
@@ -31,7 +34,8 @@ export class FetchApiService implements IApiService<Response> {
         return await fetch(`${this.baseUrl}${uri}`, {
             method: 'POST',
             body: JSON.stringify(body),
-            headers: defaultHeaders
+            headers: defaultHeaders,
+            credentials: 'include'
         });
     }
 
@@ -76,7 +80,9 @@ export class FetchApiService implements IApiService<Response> {
 
     private getAuthHeaders(): Record<string, string> {
         const headers: Record<string, string> = {};
-        if (this.secret.apiKey) {
+        if (this.secret.cookies) {
+            headers['Cookie'] = this.secret.cookies;
+        } else if (this.secret.apiKey) {
             headers['x-api-key'] = this.secret.apiKey;
         } else if (this.secret.basicToken) {
             headers['Authorization'] = `Basic ${this.secret.basicToken}`;

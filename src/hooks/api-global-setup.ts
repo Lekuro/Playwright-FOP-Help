@@ -1,20 +1,20 @@
 import { ApiWorld } from '../api-world';
-import { LoginRequestDto } from '../models/api-models/login.dto';
+import { ILoginRequestDto } from '../models/api-models/login.dto';
 
-const apiWorld = new ApiWorld();
+export const apiWorldLogin = new ApiWorld();
 
 export default async function globalSetup(): Promise<void> {
     console.log('🚀 Запуск глобального хука');
 
     try {
-        const loginData: LoginRequestDto = {
-            username: apiWorld.configService.config.auth.email,
-            password: apiWorld.configService.config.auth.password
+        const loginData: ILoginRequestDto = {
+            username: apiWorldLogin.configService.config.auth.apiEmail,
+            password: apiWorldLogin.configService.config.auth.password
         };
 
         console.log('🔐 Спроба логіну...');
 
-        const [response, loginJsonResponse] = await apiWorld.loginApi.login(loginData);
+        const [response, loginJsonResponse] = await apiWorldLogin.loginApi.login(loginData);
 
         if (!response.ok) {
             throw new Error(`Помилка логіну: ${response.status} ${response.statusText}`);
@@ -23,19 +23,19 @@ export default async function globalSetup(): Promise<void> {
         console.log('✅ Логін успішний!');
         // console.log('🔑 Токен отримано:', loginJsonResponse.token);
 
-        // Зберігаємо токен та cookies у process.env
+        // Зберігаємо токен та cookies у process.env та в конфігурацію apiWorld
         process.env.FOP_HELP_TOKEN = loginJsonResponse.token;
         process.env.TOKEN_EXPIRATION = loginJsonResponse.expiration;
         process.env.REFRESH_TOKEN = loginJsonResponse.refreshToken;
-        apiWorld.configService.config.auth.apiToken = loginJsonResponse.token;
+        apiWorldLogin.configService.config.auth.apiToken = loginJsonResponse.token;
 
         // Отримуємо cookies з response headers
         const setCookieHeader = response.headers.get('set-cookie');
         if (setCookieHeader) {
             process.env.COOKIES = setCookieHeader;
             // console.log('🍪 Cookies отримано:', setCookieHeader);
-            apiWorld.configService.config.auth.cookies = setCookieHeader;
-            // console.log('🍪 Cookies збережено в конфігурації', apiWorld.configService.config);
+            apiWorldLogin.configService.config.auth.cookies = setCookieHeader;
+            console.log('🍪 Cookies збережено в конфігурації', apiWorldLogin.configService.config);
         }
 
         // Виводимо всі збережені дані
@@ -53,5 +53,5 @@ export default async function globalSetup(): Promise<void> {
         throw error;
     }
 }
-
+const apiWorld = new ApiWorld();
 export { apiWorld };
