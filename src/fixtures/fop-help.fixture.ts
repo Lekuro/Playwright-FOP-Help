@@ -8,7 +8,6 @@ interface AtlassianFixture {
     loggedHomePage: LoggedHomePage;
     configService: ConfigService;
     loginPage: LoginPage;
-    // apiWorld: typeof apiWorld;
 }
 
 const storageState = (workerId: number): string => `.auth/storage-state-worker-${workerId}.json`;
@@ -35,7 +34,7 @@ export const test = base.extend<AtlassianFixture>({
             .then((cookiesArray) => cookiesArray.map((cookie) => `${cookie.name}=${cookie.value}`).join('; '));
 
         apiWorld.configService.config.auth.uiCookies = setCookies;
-        process.stderr.write(`🍪 Cookie from fixture: ${setCookies}\n`);
+        // process.stderr.write(`🍪 Cookie from fixture: ${setCookies}\n`);
         const page = await context.newPage();
         const loggedPage = new LoggedHomePage(page, configService.config.uiConfig.loggedBaseUrl);
         await loggedPage.goTo();

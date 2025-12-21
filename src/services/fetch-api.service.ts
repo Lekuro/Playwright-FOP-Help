@@ -20,7 +20,7 @@ export class FetchApiService implements IApiService<Response> {
                   .join('&')
             : '';
         const url = `${this.baseUrl}${uri}${queries}`;
-        console.log('🌐 Fetch GET URL headers:', defaultHeaders);
+        // console.log('🌐 Fetch GET URL headers:', defaultHeaders);
         return await fetch(url, {
             method: 'GET',
             headers: defaultHeaders,

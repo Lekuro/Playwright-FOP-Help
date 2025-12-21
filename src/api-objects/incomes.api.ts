@@ -8,7 +8,7 @@ export class IncomesApi {
 
     public async getIncomes(): Promise<[Response, IIncomesResponseDto]> {
         const response = await this.apiService.get('/api/v2/incomes');
-        console.log('💰 getIncomes response status:', response.status, response);
+        // console.log('💰 getIncomes response:', response);
         const responseBody = (await response.json()) as IIncomesResponseDto;
 
         return [response, responseBody];

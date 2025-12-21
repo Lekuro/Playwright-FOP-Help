@@ -15,7 +15,7 @@ test.describe('Incomes API Tests', () => {
             expect(response.statusText).toBe('OK');
             expect(response.ok).toBeTruthy();
             expect(jsonBody).toBeDefined();
-            console.log('Received response:', response, '\nResponse Body:', jsonBody);
+            // console.log('Received response:', response, '\nResponse Body:', jsonBody);
         });
         await test.step('verify cookies', () => {
             // const setCookieHeader = response.headers.get('set-cookie');
