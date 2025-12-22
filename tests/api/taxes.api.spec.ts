@@ -6,6 +6,19 @@ test.describe('Taxes API Tests', () => {
     let response: Response;
     let taxIdToPay: string;
     let payedUuid: string;
+    // const removeBody = {
+    //     id: '',
+    //     date: '',
+    //     incomes: 0,
+    //     expenses: 0,
+    //     flatTax: 0,
+    //     ssp: 0,
+    //     vat: 0,
+    //     militaryTax: 0,
+    //     payed: false,
+    //     comment: ''
+    // };
+
     test('Get all Taxes Test', async () => {
         let jsonBody: ITaxItemDto[];
         await test.step('send taxes request', async () => {
@@ -92,10 +105,12 @@ test.describe('Taxes API Tests', () => {
         });
     });
 
-    // test('Remove Tax Test', async () => {// dont works
+    // test('Remove Tax Test', async () => {
+    //     // dont works
     //     let jsonBody: string;
+    //     removeBody.id = payedUuid;
     //     await test.step('send taxes request', async () => {
-    //         [response, jsonBody] = await apiWorld.taxesApi.removeTax({ id: payedUuid });
+    //         [response, jsonBody] = await apiWorld.taxesApi.removeTax(removeBody);
     //         console.log('🧾 removeTax response:', response, '\nResponse Body:', jsonBody);
     //     });
     //     await test.step('verify response status', () => {
