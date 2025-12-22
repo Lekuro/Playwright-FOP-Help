@@ -23,14 +23,15 @@ test.describe('Taxes API Tests', () => {
         let jsonBody: ITaxItemDto[];
         await test.step('send taxes request', async () => {
             [response, jsonBody] = await apiWorld.taxesApi.getTaxes();
-            // console.log('🧾 getTaxes response:', response, '\nResponse Body:', jsonBody);
+            if (response.status !== 200) {
+                console.log('response:', response, '\nResponse Body:', jsonBody);
+            }
         });
         await test.step('verify response status and body exists', () => {
             expect(response.status).toBe(200);
             expect(response.statusText).toBe('OK');
             expect(response.ok).toBeTruthy();
             expect(jsonBody).toBeDefined();
-            // console.log('🧾 Total Incomes Retrieved:', jsonBody.length);
         });
     });
 
@@ -38,14 +39,15 @@ test.describe('Taxes API Tests', () => {
         let jsonBody: ITaxItemDto[];
         await test.step('send taxes request', async () => {
             [response, jsonBody] = await apiWorld.taxesApi.getPayedTaxes();
-            // console.log('🧾 getPayedTaxes response:', response, '\nResponse Body:', jsonBody);
+            if (response.status !== 200) {
+                console.log('response:', response, '\nResponse Body:', jsonBody);
+            }
         });
         await test.step('verify response status and body exists', () => {
             expect(response.status).toBe(200);
             expect(response.statusText).toBe('OK');
             expect(response.ok).toBeTruthy();
             expect(jsonBody).toBeDefined();
-            // console.log('🧾 Total Incomes Retrieved:', jsonBody.length);
         });
     });
 
@@ -53,14 +55,15 @@ test.describe('Taxes API Tests', () => {
         let jsonBody: ITaxItemDto[];
         await test.step('send taxes request', async () => {
             [response, jsonBody] = await apiWorld.taxesApi.getPendingTaxes();
-            // console.log('🧾 getPendingTaxes response:', response, '\nResponse Body:', jsonBody);
+            if (response.status !== 200) {
+                console.log('response:', response, '\nResponse Body:', jsonBody);
+            }
         });
         await test.step('verify response status and body exists', () => {
             expect(response.status).toBe(200);
             expect(response.statusText).toBe('OK');
             expect(response.ok).toBeTruthy();
             expect(jsonBody).toBeDefined();
-            // console.log('🧾 Total Incomes Retrieved:', jsonBody.length);
         });
         await test.step('verify response body', () => {
             expect(jsonBody).toBeDefined();
@@ -87,7 +90,9 @@ test.describe('Taxes API Tests', () => {
         let jsonBody: string;
         await test.step('send taxes request', async () => {
             [response, jsonBody] = await apiWorld.taxesApi.payTaxes({ id: taxIdToPay });
-            // console.log('🧾 payTaxes response:', response, '\nResponse Body:', jsonBody);
+            if (response.status !== 200) {
+                console.log('response:', response, '\nResponse Body:', jsonBody);
+            }
         });
         await test.step('verify response status', () => {
             expect(response.status).toBe(200);
@@ -106,12 +111,14 @@ test.describe('Taxes API Tests', () => {
     });
 
     // test('Remove Tax Test', async () => {
-    //     // dont works
+    //     // don't works
     //     let jsonBody: string;
     //     removeBody.id = payedUuid;
     //     await test.step('send taxes request', async () => {
     //         [response, jsonBody] = await apiWorld.taxesApi.removeTax(removeBody);
-    //         console.log('🧾 removeTax response:', response, '\nResponse Body:', jsonBody);
+    //         if (response.status !== 200) {
+    //             console.log('response:', response, '\nResponse Body:', jsonBody);
+    //         }
     //     });
     //     await test.step('verify response status', () => {
     //         expect(response.status).toBe(200);

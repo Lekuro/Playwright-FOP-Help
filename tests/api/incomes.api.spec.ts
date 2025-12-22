@@ -4,7 +4,7 @@ import { IIncomesResponseDto } from 'src/models/api-models/index.dto';
 
 test.describe('Incomes API Tests', () => {
     let response: Response;
-    const addIncomeBody = {
+    const addBody = {
         date: '2025-12-22',
         income: '15000.00',
         currency: 'USD',
@@ -24,8 +24,10 @@ test.describe('Incomes API Tests', () => {
         let jsonBody: string;
 
         await test.step('send incomes request', async () => {
-            [response, jsonBody] = await apiWorld.incomesApi.addIncome(addIncomeBody);
-            // console.log('💰 addIncome response:', response, '\nResponse Body:', jsonBody);
+            [response, jsonBody] = await apiWorld.incomesApi.addIncome(addBody);
+            if (response.status !== 200) {
+                console.log('response:', response, '\nResponse Body:', jsonBody, '\nAdd body: ', addBody);
+            }
         });
         await test.step('verify response status', () => {
             expect(response.status).toBe(200);
@@ -47,17 +49,17 @@ test.describe('Incomes API Tests', () => {
         let jsonBody = '';
         const updateBody = {
             id: incomeUuid,
-            ...addIncomeBody
+            ...addBody
         };
         updateBody.comment = 'Updated consulting services';
         updateBody.income = '17500.00';
-        // console.log('📝 Update Income Body:', updateBody);
 
         await test.step('send incomes request', async () => {
             [response, jsonBody] = await apiWorld.incomesApi.updateIncome(updateBody);
-            // console.log('💰 updateIncome response:', response, '\nResponse Body:', jsonBody);
+            if (response.status !== 200) {
+                console.log('response:', response, '\nResponse Body:', jsonBody, '\nUpdate body: ', updateBody);
+            }
         });
-        // Перевіряємо чи є помилка і skip'аємо весь тест
         if (response.status === 400) {
             console.warn('⚠️ Warning: ', jsonBody);
             test.skip();
@@ -83,28 +85,28 @@ test.describe('Incomes API Tests', () => {
         let jsonBody: IIncomesResponseDto;
         await test.step('send incomes request', async () => {
             [response, jsonBody] = await apiWorld.incomesApi.getIncomes();
-            // console.log('💰 getIncomes response:', response, '\nResponse Body:', jsonBody);
+            if (response.status !== 200) {
+                console.log('response:', response, '\nResponse Body:', jsonBody);
+            }
         });
         await test.step('verify response status and body exists', () => {
             expect(response.status).toBe(200);
             expect(response.statusText).toBe('OK');
             expect(response.ok).toBeTruthy();
             expect(jsonBody).toBeDefined();
-            // console.log('🧾 Total Incomes Retrieved:', jsonBody.length);
         });
     });
 
     test('Delete income Test', async () => {
         let jsonBody = '';
         deleteBody.id = incomeUuid;
-        // console.log('📝 Delete incomeUuid Body:', deleteBody);
 
         await test.step('send incomes request', async () => {
             [response, jsonBody] = await apiWorld.incomesApi.deleteIncome(deleteBody);
-            // console.log('💰 deleteIncome response:', response, '\nResponse Body:', jsonBody);
+            if (response.status !== 200) {
+                console.log('response:', response, '\nResponse Body:', jsonBody, '\nDelete body: ', deleteBody);
+            }
         });
-
-        // Перевіряємо чи є помилка і skip'аємо весь тест
         if (response.status === 400) {
             console.warn('⚠️ Warning: ', jsonBody);
             test.skip();
@@ -121,7 +123,6 @@ test.describe('Incomes API Tests', () => {
         });
         await test.step('verify uuid of updated income', () => {
             const deleteUuid = jsonBody.split(': ')[1].replace('"', '');
-            // console.log('🆔 Deleted Income UUID:', deleteUuid);
             expect(deleteUuid).toBeDefined();
             expect(deleteUuid).toMatch(uuidRegex);
         });
