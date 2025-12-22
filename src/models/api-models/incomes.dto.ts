@@ -20,6 +20,10 @@ export interface IUpdateIncomeRequestDto {
 // DELETE income (DELETE)
 export interface IDeleteIncomeRequestDto {
     id: string;
+    date: string;
+    income: string;
+    currency: string;
+    cash: boolean;
 }
 
 // Response для отримання доходу

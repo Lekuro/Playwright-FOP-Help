@@ -42,13 +42,26 @@ export default defineConfig({
     /* Configure projects for major browsers */
     projects: [
         {
-            name: 'chromium',
-            testMatch: [
-                '**/incomes.api.spec.ts', // Перші
-                '**/api/*', // Другі
-                '**/ui/*' // Треті
-                // '**/authenticate.api.spec.ts' // Останні
-            ],
+            name: 'incomes-api',
+            testMatch: '**/incomes.api.spec.ts',
+            use: { ...devices['Desktop Chrome'], headless: true }
+        },
+        {
+            name: 'expenses-api',
+            testMatch: '**/expenses.api.spec.ts',
+            dependencies: ['incomes-api'],
+            use: { ...devices['Desktop Chrome'], headless: true }
+        },
+        {
+            name: 'taxes-api',
+            testMatch: '**/taxes.api.spec.ts',
+            dependencies: ['incomes-api', 'expenses-api'],
+            use: { ...devices['Desktop Chrome'], headless: true }
+        },
+        {
+            name: 'ui-tests',
+            testMatch: '**/ui/*',
+            dependencies: ['expenses-api', 'taxes-api'],
             use: { ...devices['Desktop Chrome'], headless: false }
         }
 

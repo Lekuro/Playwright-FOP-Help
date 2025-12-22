@@ -13,7 +13,7 @@ test.describe('Incomes API Tests', () => {
     };
     let incomeUuid: string;
     let updateUuid: string;
-    const deleteIncomeBody = {
+    const deleteBody = {
         id: '',
         income: '',
         date: '',
@@ -45,26 +45,24 @@ test.describe('Incomes API Tests', () => {
 
     test('Update income Test', async () => {
         let jsonBody = '';
-        const updateIncomeBody = {
+        const updateBody = {
             id: incomeUuid,
             ...addIncomeBody
         };
-        updateIncomeBody.comment = 'Updated consulting services';
-        updateIncomeBody.income = '17500.00';
-        // console.log('📝 Update Income Body:', updateIncomeBody);
+        updateBody.comment = 'Updated consulting services';
+        updateBody.income = '17500.00';
+        // console.log('📝 Update Income Body:', updateBody);
 
         await test.step('send incomes request', async () => {
-            [response, jsonBody] = await apiWorld.incomesApi.updateIncome(updateIncomeBody);
+            [response, jsonBody] = await apiWorld.incomesApi.updateIncome(updateBody);
             // console.log('💰 updateIncome response:', response, '\nResponse Body:', jsonBody);
         });
-
         // Перевіряємо чи є помилка і skip'аємо весь тест
         if (response.status === 400) {
             console.warn('⚠️ Warning: ', jsonBody);
             test.skip();
             return;
         }
-
         await test.step('verify response status', () => {
             expect(response.status).toBe(200);
             expect(response.statusText).toBe('OK');
@@ -99,11 +97,11 @@ test.describe('Incomes API Tests', () => {
 
     test('Delete income Test', async () => {
         let jsonBody = '';
-        deleteIncomeBody.id = incomeUuid;
-        // console.log('📝 Delete incomeUuid Body:', deleteIncomeBody);
+        deleteBody.id = incomeUuid;
+        // console.log('📝 Delete incomeUuid Body:', deleteBody);
 
         await test.step('send incomes request', async () => {
-            [response, jsonBody] = await apiWorld.incomesApi.deleteIncome(deleteIncomeBody);
+            [response, jsonBody] = await apiWorld.incomesApi.deleteIncome(deleteBody);
             // console.log('💰 deleteIncome response:', response, '\nResponse Body:', jsonBody);
         });
 
