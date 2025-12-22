@@ -1,4 +1,5 @@
 // import { APIResponse } from 'playwright';
+import { AuthenticateApi } from './api-objects/authenticate.api';
 import { LoginApi, IncomesApi, ExpensesApi, TaxesApi } from './api-objects/index.api';
 import { ConfigService } from './services/config.service';
 import { FetchApiService } from './services/fetch-api.service';
@@ -12,6 +13,12 @@ export class ApiWorld {
             this._loginApi = new LoginApi(this._theFetchApiService);
         }
         return this._loginApi;
+    }
+    public get authenticateApi(): AuthenticateApi {
+        if (!this._authenticateApi) {
+            this._authenticateApi = new AuthenticateApi(this._theLoggedFetchApiService);
+        }
+        return this._authenticateApi;
     }
 
     public get incomesApi(): IncomesApi {
@@ -46,6 +53,7 @@ export class ApiWorld {
     // }
 
     private _loginApi: LoginApi;
+    private _authenticateApi: AuthenticateApi;
     private _incomesApi: IncomesApi;
     private _expensesApi: ExpensesApi;
     private _taxesApi: TaxesApi;
@@ -67,6 +75,7 @@ export class ApiWorld {
         // this._theLoginPlaywrightApiService = new PlaywrightApiService(config.apiConfig.fopHelpApiUrl, {});
 
         this._loginApi = new LoginApi(this._theFetchApiService);
+        this._authenticateApi = new AuthenticateApi(this._theLoggedFetchApiService);
         this._incomesApi = new IncomesApi(this._theLoggedFetchApiService);
         this._expensesApi = new ExpensesApi(this._theLoggedFetchApiService);
         this._taxesApi = new TaxesApi(this._theLoggedFetchApiService);

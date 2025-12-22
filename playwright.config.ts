@@ -42,24 +42,35 @@ export default defineConfig({
     /* Configure projects for major browsers */
     projects: [
         {
-            name: 'incomes-api-1',
+            name: 'incomes-api',
             testMatch: '**/incomes.api.spec.ts',
             use: { ...devices['Desktop Chrome'], headless: true }
         },
         {
-            name: 'expenses-api-2',
+            name: 'expenses-api',
             testMatch: '**/expenses.api.spec.ts',
             // dependencies: ['incomes-api'],
             use: { ...devices['Desktop Chrome'], headless: true }
         },
         {
-            name: 'taxes-api-3',
+            name: 'taxes-api',
             testMatch: '**/taxes.api.spec.ts',
             // dependencies: ['incomes-api', 'expenses-api'],
             use: { ...devices['Desktop Chrome'], headless: true }
         },
         {
-            name: 'ui-tests-4',
+            name: 'login-api',
+            testMatch: '**/login.api.spec.ts',
+            use: { ...devices['Desktop Chrome'], headless: true }
+        },
+        {
+            name: 'authenticate-api',
+            testMatch: '**/authenticate.api.spec.ts',
+            // dependencies: ['incomes-api', 'expenses-api', 'taxes-api', 'login-api'],
+            use: { ...devices['Desktop Chrome'], headless: true }
+        },
+        {
+            name: 'ui-tests',
             testMatch: '**/ui/*',
             // dependencies: ['expenses-api', 'taxes-api'],
             use: { ...devices['Desktop Chrome'], headless: false }

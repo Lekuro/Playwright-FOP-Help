@@ -23,8 +23,8 @@ export class FetchApiService implements IApiService<Response> {
         // console.log('🌐 Fetch GET URL headers:', defaultHeaders);
         return await fetch(url, {
             method: 'GET',
-            headers: defaultHeaders,
-            credentials: 'include'
+            headers: defaultHeaders
+            // credentials: 'include'
         });
     }
 
@@ -34,8 +34,8 @@ export class FetchApiService implements IApiService<Response> {
         return await fetch(`${this.baseUrl}${uri}`, {
             method: 'POST',
             body: JSON.stringify(body),
-            headers: defaultHeaders,
-            credentials: 'include'
+            headers: defaultHeaders
+            // credentials: 'include'
         });
     }
 

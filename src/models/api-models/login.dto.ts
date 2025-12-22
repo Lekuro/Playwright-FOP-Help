@@ -16,8 +16,3 @@ export interface ILoginResponseDto {
     expiration: string;
     refreshToken: string;
 }
-
-export interface IShowUserInfoResponseDto {
-    username: string;
-    token: string;
-}

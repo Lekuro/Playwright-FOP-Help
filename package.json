@@ -4,7 +4,14 @@
   "description": "```\r npm init playwright@latest\r ```",
   "main": "index.js",
   "scripts": {
-    "test": "eslint && npx playwright test && npx allure generate --single-file allure-results --clean -o allure-report"
+    "test": "eslint && npx playwright test && npx allure generate --single-file allure-results --clean -o allure-report",
+    "test:incomes": "eslint && npx playwright test tests/api/incomes.api.spec.ts",
+    "test:expenses": "eslint && npx playwright test tests/api/expenses.api.spec.ts",
+    "test:taxes": "eslint && npx playwright test tests/api/taxes.api.spec.ts",
+    "test:login": "eslint && npx playwright test tests/api/login.api.spec.ts",
+    "test:authenticate": "eslint && npx playwright test tests/api/authenticate.api.spec.ts",
+    "test:ui": "eslint && npx playwright test tests/ui/",
+    "test:allure": "npx allure generate --single-file allure-results --clean -o allure-report"
   },
   "repository": {
     "type": "git",
