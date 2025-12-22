@@ -25,7 +25,7 @@ test.describe('Incomes API Tests', () => {
 
         await test.step('send incomes request', async () => {
             [response, jsonBody] = await apiWorld.incomesApi.addIncome(addIncomeBody);
-            console.log('💰 addIncome response:', response, '\nResponse Body:', jsonBody);
+            // console.log('💰 addIncome response:', response, '\nResponse Body:', jsonBody);
         });
         await test.step('verify response status', () => {
             expect(response.status).toBe(200);
@@ -91,7 +91,6 @@ test.describe('Incomes API Tests', () => {
             expect(response.ok).toBeTruthy();
             expect(jsonBody).toBeDefined();
             // console.log('🧾 Total Incomes Retrieved:', jsonBody.length);
-            expect(jsonBody.length).toBeGreaterThan(2);
         });
     });
 

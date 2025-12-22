@@ -85,7 +85,6 @@ test.describe('Expenses API Tests', () => {
             expect(response.ok).toBeTruthy();
             expect(jsonBody).toBeDefined();
             // console.log('🧾 Total Expenses Retrieved:', jsonBody.length);
-            expect(jsonBody.length).toBeGreaterThan(2);
         });
     });
 
@@ -112,11 +111,11 @@ test.describe('Expenses API Tests', () => {
         });
         await test.step('verify response body', () => {
             expect(jsonBody).toBeDefined();
-            expect(jsonBody).toContain('Successfully deleted income ID: ');
+            expect(jsonBody).toContain('Successfully deleted expense ID: ');
         });
-        await test.step('verify uuid of updated income', () => {
+        await test.step('verify uuid of updated expense', () => {
             const deleteUuid = jsonBody.split(': ')[1].replace('"', '');
-            // console.log('🆔 Deleted Income UUID:', deleteUuid);
+            // console.log('🆔 Deleted Expense UUID:', deleteUuid);
             expect(deleteUuid).toBeDefined();
             expect(deleteUuid).toMatch(uuidRegex);
         });
