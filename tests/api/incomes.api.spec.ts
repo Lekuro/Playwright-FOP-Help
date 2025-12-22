@@ -25,7 +25,7 @@ test.describe('Incomes API Tests', () => {
 
         await test.step('send incomes request', async () => {
             [response, jsonBody] = await apiWorld.incomesApi.addIncome(addIncomeBody);
-            // console.log('💰 addIncome response:', response, '\nResponse Body:', jsonBody);
+            console.log('💰 addIncome response:', response, '\nResponse Body:', jsonBody);
         });
         await test.step('verify response status', () => {
             expect(response.status).toBe(200);
