@@ -3,15 +3,6 @@ import { apiWorld } from '../../src/hooks/api-global-setup';
 import { IShowUserInfoResponseDto } from 'src/models/api-models/index.dto';
 
 test.describe('Authentication API Tests', () => {
-    // const credentials = {
-    //     username: apiWorld.configService.config.auth.apiEmail,
-    //     password: apiWorld.configService.config.auth.password
-    // };
-
-    // const wrongCredentials = {
-    //     username: 'wrong@example.com',
-    //     password: 'wrongpassword'
-    // };
     let response: Response;
 
     test('Show user info data Test', async () => {
@@ -28,7 +19,15 @@ test.describe('Authentication API Tests', () => {
             expect(response.ok).toBeTruthy();
         });
         await test.step('verify response body', () => {
+            console.log('Response Body:', jsonBody);
+            // test.fail(true, 'Needs to be fixed according to new API response');
             expect(jsonBody).toBeDefined();
+            expect(jsonBody).toHaveProperty('Status');
+            expect(jsonBody).toHaveProperty('Message');
+            expect(jsonBody).toHaveProperty('token');
+            expect(jsonBody).toHaveProperty('Id');
+            expect(jsonBody).toHaveProperty('UserId');
+            expect(jsonBody).toHaveProperty('Hash');
         });
     });
 
