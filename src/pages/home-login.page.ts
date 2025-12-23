@@ -1,12 +1,8 @@
 import { Locator, Page } from '@playwright/test';
+import { HeaderLoginComponent } from 'src/components/index.component';
+import { NavigateComponent } from 'src/components/navigate-menu.component';
 
 export class LoginPage {
-    // private readonly _url = 'https://new.fophelp.pro/';
-
-    private get signInButton(): Locator {
-        return this.page.locator('.signin-button');
-    }
-
     private get isLoggedInLocator(): Locator {
         return this.page.locator('.user-info');
     }
@@ -51,16 +47,22 @@ export class LoginPage {
         return this.page.locator('//button[@aria-label="Close modal"]/../h2');
     }
 
+    public readonly headerLogin: HeaderLoginComponent;
+    public readonly navigateMenu: NavigateComponent;
+
     public constructor(
         private readonly page: Page,
         private readonly _url: string
-    ) {}
+    ) {
+        this.headerLogin = new HeaderLoginComponent(this.page.locator('.header-container'));
+        this.navigateMenu = new NavigateComponent(this.page.locator('.nav-container'));
+    }
 
     public async login(email: string, password: string): Promise<void> {
         if (await this.isLoggedInLocator.isVisible()) {
             return;
         }
-        await this.signInButton.click();
+        await this.headerLogin.clickSignInButton();
         await this.inputEmail.fill(email);
         await this.inputPassword.fill(password);
         await this.btnSubmit.click();
@@ -70,10 +72,6 @@ export class LoginPage {
 
     public async goTo(path?: string): Promise<void> {
         await this.page.goto(`${this._url}${path}`);
-    }
-
-    public async clickSignInButton(): Promise<void> {
-        await this.signInButton.click();
     }
 
     public async clickRegister(): Promise<void> {

@@ -1,4 +1,5 @@
 import { Locator, Page } from '@playwright/test';
+import { HeaderLoggedComponent } from 'src/components/index.component';
 
 export class LoggedHomePage {
     // private readonly _url = 'https://new.fophelp.pro/';
@@ -51,10 +52,14 @@ export class LoggedHomePage {
         return this.page.locator('//button[@aria-label="Close modal"]/../h2');
     }
 
+    public readonly headerLoggedComponent: HeaderLoggedComponent;
+
     public constructor(
         public page: Page,
         private readonly _url: string
-    ) {}
+    ) {
+        this.headerLoggedComponent = new HeaderLoggedComponent(this.page.locator('nav[aria-label="Main"]'));
+    }
 
     public async isLoggedIn(): Promise<boolean> {
         return this.isLoggedInLocator.isVisible();

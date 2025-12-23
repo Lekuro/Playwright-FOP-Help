@@ -1,2 +1,2 @@
-export * from './login.page';
-export * from './logged-home.page';
+export * from './home-login.page';
+export * from './home-logged.page';
