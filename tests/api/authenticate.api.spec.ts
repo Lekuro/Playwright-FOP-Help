@@ -19,8 +19,8 @@ test.describe('Authentication API Tests', () => {
             expect(response.ok).toBeTruthy();
         });
         await test.step('verify response body', () => {
-            console.log('Response Body:', jsonBody);
-            // test.fail(true, 'Needs to be fixed according to new API response');
+            console.log('Response: ', response, 'Response Body:', jsonBody);
+            test.fail(true, 'Needs to be fixed according to new API response');
             expect(jsonBody).toBeDefined();
             expect(jsonBody).toHaveProperty('Status');
             expect(jsonBody).toHaveProperty('Message');
