@@ -36,10 +36,14 @@ export class ReportsApi {
         return [response, responseBody];
     }
 
-    public async removeReport(body: IRemoveReportRequestDto): Promise<[Response, IDetailedResponseDto]> {
+    public async removeReport(body: IRemoveReportRequestDto): Promise<[Response, IDetailedResponseDto | string]> {
         const response = await this.apiService.post('/api/v2/reports/remove', body);
-        // console.log('👤 showUserInfo response status:', response, 'body->>', await response.text());
-        const responseBody = (await response.json()) as IDetailedResponseDto;
+        let responseBody: IDetailedResponseDto | string;
+        if (response.status === 400) {
+            responseBody = await response.text();
+        } else {
+            responseBody = (await response.json()) as IDetailedResponseDto;
+        }
         return [response, responseBody];
     }
 }

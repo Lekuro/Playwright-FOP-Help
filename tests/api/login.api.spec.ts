@@ -47,7 +47,7 @@ test.describe('Login API Tests', () => {
         let jsonBody: ILoginResponseDto;
         await test.step('send login request', async () => {
             [response, jsonBody] = await apiWorld.loginApi.login(wrongCredentials);
-            if (response.status !== 200) {
+            if (response.status !== 401) {
                 console.log('response:', response, '\nResponse Body:', jsonBody);
             }
         });
