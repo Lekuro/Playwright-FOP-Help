@@ -14,9 +14,8 @@ const storageState = (workerId: number): string => `.auth/storage-state-worker-$
 
 export const test = base.extend<AtlassianFixture>({
     configService: async ({ browserName }, use) => {
-        console.log(browserName);
+        process.stderr.write(`browserName: ${browserName}\n`);
         const configService = new ConfigService();
-        // console.log('Config loaded for tests:', configService.config);
         await use(configService);
     },
     loggedHomePage: async ({ browser, configService }, use) => {
