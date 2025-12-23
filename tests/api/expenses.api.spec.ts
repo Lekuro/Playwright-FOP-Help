@@ -51,7 +51,7 @@ test.describe('Expenses API Tests', () => {
         await test.step('send expenses request', async () => {
             [response, jsonBody] = await apiWorld.expensesApi.updateExpense(updateBody);
             if (response.status !== 200) {
-                console.log('response:', response, '\nResponse Body:', jsonBody, '\nUpdate body:', updateBody);
+                console.log('⭕ Skipped \nresponse:', response, '\nResponse Body:', jsonBody, '\nUpdate body:', updateBody);
             }
         });
         if (response.status === 400) {
@@ -98,7 +98,7 @@ test.describe('Expenses API Tests', () => {
         await test.step('send expenses request', async () => {
             [response, jsonBody] = await apiWorld.expensesApi.deleteExpense(deleteBody);
             if (response.status !== 200) {
-                console.log('response:', response, '\nResponse Body:', jsonBody, '\nDelete body: ', deleteBody);
+                console.log('⭕ Skipped \nresponse:', response, '\nResponse Body:', jsonBody, '\nDelete body: ', deleteBody);
             }
         });
         if (response.status === 400) {

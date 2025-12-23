@@ -5,7 +5,7 @@ import { IIncomesResponseDto } from 'src/models/api-models/index.dto';
 test.describe('Incomes API Tests', () => {
     let response: Response;
     const addBody = {
-        date: '2025-12-22',
+        date: '2025-12-23',
         income: '15000.00',
         currency: 'USD',
         comment: 'Consulting services',
@@ -57,7 +57,7 @@ test.describe('Incomes API Tests', () => {
         await test.step('send incomes request', async () => {
             [response, jsonBody] = await apiWorld.incomesApi.updateIncome(updateBody);
             if (response.status !== 200) {
-                console.log('response:', response, '\nResponse Body:', jsonBody, '\nUpdate body: ', updateBody);
+                console.log('⭕ Skipped \nResponse:', response, '\nResponse Body:', jsonBody, '\nUpdate body: ', updateBody);
             }
         });
         if (response.status === 400) {
@@ -104,7 +104,7 @@ test.describe('Incomes API Tests', () => {
         await test.step('send incomes request', async () => {
             [response, jsonBody] = await apiWorld.incomesApi.deleteIncome(deleteBody);
             if (response.status !== 200) {
-                console.log('response:', response, '\nResponse Body:', jsonBody, '\nDelete body: ', deleteBody);
+                console.log('⭕ Skipped \nresponse:', response, '\nResponse Body:', jsonBody, '\nDelete body: ', deleteBody);
             }
         });
         if (response.status === 400) {

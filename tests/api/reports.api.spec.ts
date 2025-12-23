@@ -129,13 +129,11 @@ test.describe('Reports API Tests', () => {
         await test.step('send reports request', async () => {
             [response, jsonBody] = await apiWorld.reportsApi.removeReport(removeBody);
             if (response.status !== 200) {
-                console.log('response:', response, '\nResponse Body:', jsonBody);
+                console.log('❌ Failed \nresponse:', response, '\nResponse Body:', jsonBody);
+                test.fail(true);
             }
         });
         await test.step('verify response status', () => {
-            if (response.status !== 200) {
-                test.fail(true, `Expected failure - needs to be fixed. Response: ${JSON.stringify(jsonBody)}`);
-            }
             expect(response.status).toBe(200);
             expect(response.statusText).toBe('OK');
             expect(response.ok).toBeTruthy();

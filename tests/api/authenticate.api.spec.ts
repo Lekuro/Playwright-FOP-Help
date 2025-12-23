@@ -73,13 +73,12 @@ test.describe('Authentication API Tests', () => {
         await test.step('send refresh cookies request', async () => {
             [response, cookies] = await apiWorld.authenticateApi.refreshCookies();
             if (response.status !== 200) {
-                console.log('response:', response, '\nResponse Body:', cookies);
+                console.log('❌ Failed \nresponse:', response, '\nResponse Body:', cookies);
+                // test.skip();
+                test.fail(true, `Expected failure - needs to be fixed. Response: ${response}`);
             }
         });
         await test.step('verify response status', () => {
-            if (response.status !== 200) {
-                test.fail(true, `Expected failure - needs to be fixed. Response: ${response}`);
-            }
             expect(response.status).toBe(200);
             expect(response.statusText).toBe('OK');
             expect(response.ok).toBeTruthy();
