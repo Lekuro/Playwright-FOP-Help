@@ -1,6 +1,6 @@
 // import { APIResponse } from 'playwright';
 import { AuthenticateApi } from './api-objects/authenticate.api';
-import { LoginApi, IncomesApi, ExpensesApi, TaxesApi } from './api-objects/index.api';
+import { LoginApi, IncomesApi, ExpensesApi, TaxesApi, ReportsApi } from './api-objects/index.api';
 import { ConfigService } from './services/config.service';
 import { FetchApiService } from './services/fetch-api.service';
 import { IApiService } from './services/abstractions/i-api-service';
@@ -42,6 +42,13 @@ export class ApiWorld {
         return this._taxesApi;
     }
 
+    public get reportsApi(): ReportsApi {
+        if (!this._reportsApi) {
+            this._reportsApi = new ReportsApi(this._theLoggedFetchApiService);
+        }
+        return this._reportsApi;
+    }
+
     public get configService(): ConfigService {
         return this._configService;
     }
@@ -57,6 +64,7 @@ export class ApiWorld {
     private _incomesApi: IncomesApi;
     private _expensesApi: ExpensesApi;
     private _taxesApi: TaxesApi;
+    private _reportsApi: ReportsApi;
     // private _registerApi: RegisterApi;
     private _theFetchApiService: IApiService<Response>;
     private _theLoggedFetchApiService: IApiService<Response>;
@@ -79,6 +87,7 @@ export class ApiWorld {
         this._incomesApi = new IncomesApi(this._theLoggedFetchApiService);
         this._expensesApi = new ExpensesApi(this._theLoggedFetchApiService);
         this._taxesApi = new TaxesApi(this._theLoggedFetchApiService);
+        this._reportsApi = new ReportsApi(this._theLoggedFetchApiService);
         // this._loginApi = new LoginApi(this._theLoginPlaywrightApiService);
         // this._registerApi = new RegisterApi(this._theFetchApiService);
     }

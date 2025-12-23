@@ -9,6 +9,7 @@
     "test:expenses": "eslint && npx playwright test tests/api/expenses.api.spec.ts",
     "test:taxes": "eslint && npx playwright test tests/api/taxes.api.spec.ts",
     "test:login": "eslint && npx playwright test tests/api/login.api.spec.ts",
+    "test:reports": "eslint && npx playwright test tests/api/reports.api.spec.ts",
     "test:authenticate": "eslint && npx playwright test tests/api/authenticate.api.spec.ts",
     "test:ui": "eslint && npx playwright test tests/ui/",
     "test:allure": "npx allure generate --single-file allure-results --clean -o allure-report"

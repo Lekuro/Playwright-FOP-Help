@@ -3,3 +3,4 @@ export * from './incomes.api';
 export * from './expenses.api';
 export * from './taxes.api';
 export * from './authenticate.api';
+export * from './reports.api';

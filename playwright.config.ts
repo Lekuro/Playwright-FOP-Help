@@ -59,6 +59,12 @@ export default defineConfig({
             use: { ...devices['Desktop Chrome'], headless: true }
         },
         {
+            name: 'reports-api',
+            testMatch: '**/reports.api.spec.ts',
+            // dependencies: ['incomes-api', 'expenses-api'],
+            use: { ...devices['Desktop Chrome'], headless: true }
+        },
+        {
             name: 'login-api',
             testMatch: '**/login.api.spec.ts',
             use: { ...devices['Desktop Chrome'], headless: true }
@@ -66,7 +72,7 @@ export default defineConfig({
         {
             name: 'authenticate-api',
             testMatch: '**/authenticate.api.spec.ts',
-            // dependencies: ['incomes-api', 'expenses-api', 'taxes-api', 'login-api'],
+            // dependencies: ['incomes-api', 'expenses-api', 'taxes-api', 'reports-api', 'login-api'],
             use: { ...devices['Desktop Chrome'], headless: true }
         },
         {
