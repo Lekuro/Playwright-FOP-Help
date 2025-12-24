@@ -40,34 +40,34 @@ export class NavigateComponent {
     public async clickExpenses(): Promise<void> {
         await this.linkExpenses.click();
     }
-    public async hoverButtonTaxes(): Promise<void> {
+    public async hoverTaxes(): Promise<void> {
         await this.buttonTaxes.hover();
     }
-    public async clickButtonTaxes(): Promise<void> {
+    public async clickTaxes(): Promise<void> {
         await this.buttonTaxes.click();
     }
-    public async clickLinkTaxesAll(): Promise<void> {
+    public async clickTaxesAll(): Promise<void> {
         await this.linkTaxesAll.click();
     }
-    public async clickLinkTaxesPending(): Promise<void> {
+    public async clickTaxesPending(): Promise<void> {
         await this.linkTaxesPending.click();
     }
-    public async clickLinkTaxesPaid(): Promise<void> {
+    public async clickTaxesPaid(): Promise<void> {
         await this.linkTaxesPaid.click();
     }
-    public async hoverButtonReports(): Promise<void> {
+    public async hoverReports(): Promise<void> {
         await this.buttonReports.hover();
     }
-    public async clickButtonReports(): Promise<void> {
+    public async clickReports(): Promise<void> {
         await this.buttonReports.click();
     }
-    public async clickLinkReportsAll(): Promise<void> {
+    public async clickReportsAll(): Promise<void> {
         await this.linkReportsAll.click();
     }
-    public async clickLinkReportsCurrent(): Promise<void> {
+    public async clickReportsCurrent(): Promise<void> {
         await this.linkReportsCurrent.click();
     }
-    public async clickLinkReportsSubmitted(): Promise<void> {
+    public async clickReportsSubmitted(): Promise<void> {
         await this.linkReportsSubmitted.click();
     }
 }

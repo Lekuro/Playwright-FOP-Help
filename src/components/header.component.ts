@@ -2,45 +2,56 @@ import { Locator } from '@playwright/test';
 
 export class HeaderComponent {
     private get linkHomePage(): Locator {
-        return this.headerLogin.locator('a[href="/"]');
+        return this.header.locator('a[href="/"]');
     }
     private get themeToggle(): Locator {
-        return this.headerLogin.locator('.theme-toggle');
+        return this.header.locator('.theme-toggle');
+    }
+    private get pageName(): Locator {
+        return this.header.locator('span.page-name');
     }
 
     // Logged out locators
     private get signInButton(): Locator {
-        return this.headerLogin.locator('.signin-button');
+        return this.header.locator('.signin-button');
     }
     private get signUpButton(): Locator {
-        return this.headerLogin.locator('.register-button');
+        return this.header.locator('.register-button');
     }
 
     // Logged in locators
     private get welcomeText(): Locator {
-        return this.headerLogin.locator('.welcome-text');
+        return this.header.locator('.welcome-text');
     }
     private get buttonExit(): Locator {
-        return this.headerLogin.locator('//button[text()="Вийти"]');
+        return this.header.locator('//button[text()="Вийти"]');
     }
     private get btnRemoveAccount(): Locator {
-        return this.headerLogin.locator('//button[text()="Видалити акаунт"]');
+        return this.header.locator('//button[text()="Видалити акаунт"]');
     }
 
-    public constructor(private readonly headerLogin: Locator) {}
+    public constructor(private readonly header: Locator) {}
 
-    public async clickLinkHomePage(): Promise<void> {
+    public async clickHomePage(): Promise<void> {
         await this.linkHomePage.click();
     }
     public async clickToggleTheme(): Promise<void> {
         await this.themeToggle.click();
     }
+    public async getThemeState(): Promise<string> {
+        const themeData = await this.themeToggle.getAttribute('aria-label');
+        return themeData || '';
+    }
+    public async getPageName(): Promise<string> {
+        const pageName = await this.pageName.textContent();
+        return pageName || '';
+    }
 
     // Logged out methods
-    public async clickSignInButton(): Promise<void> {
+    public async clickSignIn(): Promise<void> {
         await this.signInButton.click();
     }
-    public async clickSignUpButton(): Promise<void> {
+    public async clickSignUp(): Promise<void> {
         await this.signUpButton.click();
     }
 
@@ -48,10 +59,10 @@ export class HeaderComponent {
     public async hoverWelcomeText(): Promise<void> {
         await this.welcomeText.hover();
     }
-    public async clickBtnExit(): Promise<void> {
+    public async clickExit(): Promise<void> {
         await this.buttonExit.click();
     }
-    public async clickBtnRemoveAccount(): Promise<void> {
+    public async clickRemoveAccount(): Promise<void> {
         await this.btnRemoveAccount.click();
     }
 

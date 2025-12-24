@@ -11,15 +11,15 @@ export class HomePage {
         return this.page.locator('//button[@aria-label="Close modal"]/../h2');
     }
 
-    public readonly headerLogin: HeaderComponent;
+    public readonly header: HeaderComponent;
     public readonly navigateMenu: NavigateComponent;
     public readonly loginModal: LoginModal;
 
     public constructor(
-        private readonly page: Page,
+        public readonly page: Page,
         private readonly _url: string
     ) {
-        this.headerLogin = new HeaderComponent(this.page.locator('.header-container'));
+        this.header = new HeaderComponent(this.page.locator('.header-container'));
         this.navigateMenu = new NavigateComponent(this.page.locator('.nav-container'));
         this.loginModal = new LoginModal(this.page.locator('.sticky-header-nav>div>div'));
     }
@@ -28,7 +28,7 @@ export class HomePage {
         if (await this.isLoggedInLocator.isVisible()) {
             return;
         }
-        await this.headerLogin.clickSignInButton();
+        await this.header.clickSignInButton();
         await this.loginModal.fillEmail(email);
         await this.loginModal.fillPassword(password);
         await this.loginModal.clickSubmit();

@@ -80,7 +80,7 @@ export default defineConfig({
         },
         {
             name: 'ui-tests',
-            testMatch: '**/ui/*',
+            testMatch: '**/ui/*.{spec,e2e.spec}.ts',
             // dependencies: ['expenses-api', 'taxes-api'],
             use: { ...devices['Desktop Chrome'], headless: false }
         }
