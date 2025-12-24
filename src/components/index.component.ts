@@ -1,3 +1,2 @@
-export * from './header-login.component';
-export * from './header-logged.component';
+export * from './header.component';
 export * from './navigate-menu.component';

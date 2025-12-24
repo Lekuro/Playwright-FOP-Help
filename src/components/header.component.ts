@@ -1,27 +1,50 @@
 import { Locator } from '@playwright/test';
 
-export class HeaderLoggedComponent {
+export class HeaderComponent {
     private get linkHomePage(): Locator {
-        return this.headerLogged.locator('a[href="/"]');
-    }
-    private get welcomeText(): Locator {
-        return this.headerLogged.locator('.welcome-text');
+        return this.headerLogin.locator('a[href="/"]');
     }
     private get themeToggle(): Locator {
-        return this.headerLogged.locator('.theme-toggle');
-    }
-    private get buttonExit(): Locator {
-        return this.headerLogged.locator('//button[text()="Вийти"]');
-    }
-    private get btnRemoveAccount(): Locator {
-        return this.headerLogged.locator('//button[text()="Видалити акаунт"]');
+        return this.headerLogin.locator('.theme-toggle');
     }
 
-    public constructor(private readonly headerLogged: Locator) {}
+    // Logged out locators
+    private get signInButton(): Locator {
+        return this.headerLogin.locator('.signin-button');
+    }
+    private get signUpButton(): Locator {
+        return this.headerLogin.locator('.register-button');
+    }
+
+    // Logged in locators
+    private get welcomeText(): Locator {
+        return this.headerLogin.locator('.welcome-text');
+    }
+    private get buttonExit(): Locator {
+        return this.headerLogin.locator('//button[text()="Вийти"]');
+    }
+    private get btnRemoveAccount(): Locator {
+        return this.headerLogin.locator('//button[text()="Видалити акаунт"]');
+    }
+
+    public constructor(private readonly headerLogin: Locator) {}
 
     public async clickLinkHomePage(): Promise<void> {
         await this.linkHomePage.click();
     }
+    public async clickToggleTheme(): Promise<void> {
+        await this.themeToggle.click();
+    }
+
+    // Logged out methods
+    public async clickSignInButton(): Promise<void> {
+        await this.signInButton.click();
+    }
+    public async clickSignUpButton(): Promise<void> {
+        await this.signUpButton.click();
+    }
+
+    // Logged in methods
     public async hoverWelcomeText(): Promise<void> {
         await this.welcomeText.hover();
     }
@@ -31,9 +54,7 @@ export class HeaderLoggedComponent {
     public async clickBtnRemoveAccount(): Promise<void> {
         await this.btnRemoveAccount.click();
     }
-    public async clickToggleTheme(): Promise<void> {
-        await this.themeToggle.click();
-    }
+
     public async getWelcomeText(): Promise<string> {
         return (await this.welcomeText.textContent()) || '';
     }

@@ -1,13 +1,13 @@
 import { test as base, Browser } from '@playwright/test';
-import { LoggedHomePage, LoginPage } from '../pages/index';
+import { HomePage } from '../pages/index.page';
 import * as fs from 'fs';
 import { ConfigService } from '../services/config.service';
 import { apiWorld } from '../hooks/api-global-setup';
 
 interface AtlassianFixture {
-    loggedHomePage: LoggedHomePage;
+    loggedHomePage: HomePage;
     configService: ConfigService;
-    loginPage: LoginPage;
+    homePage: HomePage;
 }
 
 const storageState = (workerId: number): string => `.auth/storage-state-worker-${workerId}.json`;
@@ -18,7 +18,10 @@ export const test = base.extend<AtlassianFixture>({
         const configService = new ConfigService();
         await use(configService);
     },
-    loggedHomePage: async ({ browser, configService }, use) => {
+    loggedHomePage: async ({ browser, configService }, use, testInfo) => {
+        // Збільшуємо таймаут для налаштування фікстури до 2 хвилин
+        testInfo.setTimeout(180000);
+
         const workerId = test.info().workerIndex;
         await authenticateFopHelp(browser, workerId, configService);
 
@@ -35,7 +38,7 @@ export const test = base.extend<AtlassianFixture>({
         apiWorld.configService.config.auth.uiCookies = setCookies;
         // process.stderr.write(`🍪 Cookie from fixture: ${setCookies}\n`);
         const page = await context.newPage();
-        const loggedPage = new LoggedHomePage(page, configService.config.uiConfig.loggedBaseUrl);
+        const loggedPage = new HomePage(page, configService.config.uiConfig.loggedBaseUrl);
         await loggedPage.goTo();
         await use(loggedPage);
 
@@ -43,9 +46,9 @@ export const test = base.extend<AtlassianFixture>({
         await page.close();
         await context.close();
     },
-    loginPage: async ({ page, configService }, use) => {
-        const loginPage = new LoginPage(page, configService.config.uiConfig.loginBaseUrl);
-        await use(loginPage);
+    homePage: async ({ page, configService }, use) => {
+        const homePage = new HomePage(page, configService.config.uiConfig.loginBaseUrl);
+        await use(homePage);
     }
 });
 
@@ -54,10 +57,10 @@ async function authenticateFopHelp(browser: Browser, workerId: number, configSer
 
     const context = await browser.newContext();
     const page = await context.newPage();
-    const loginPage = new LoginPage(page, configService.config.uiConfig.loginBaseUrl);
+    const homePage = new HomePage(page, configService.config.uiConfig.loginBaseUrl);
 
-    await loginPage.goTo();
-    await loginPage.login(configService.config.auth.uiEmail, configService.config.auth.password);
+    await homePage.goTo();
+    await homePage.login(configService.config.auth.uiEmail, configService.config.auth.password);
 
     await page.context().storageState({ path: storageState(workerId) });
     await context.close();
