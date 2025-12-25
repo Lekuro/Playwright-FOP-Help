@@ -11,7 +11,7 @@ export class AddIncomeModal {
         return this.addIncomeModal.locator('button[type="submit"]');
     }
     private get successMessage(): Locator {
-        return this.addIncomeModal.locator('//span[text(), "Дохід успішно додано"]');
+        return this.addIncomeModal.locator('//span[contains(text(), "Дохід успішно додано")]');
     }
     public get inputDate(): Locator {
         return this.addIncomeModal.locator('input#date');

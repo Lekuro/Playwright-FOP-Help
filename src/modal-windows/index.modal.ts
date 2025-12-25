@@ -1,2 +1,2 @@
 export * from './login.modal';
-export * from './add-income.modal';
+export * from './income.modal';
