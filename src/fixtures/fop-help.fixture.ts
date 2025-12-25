@@ -53,7 +53,7 @@ export const test = base.extend<AtlassianFixture>({
     },
     incomesPage: async ({ loggedHomePage, configService }, use) => {
         const incomePage = new IncomesPage(loggedHomePage.page, configService.config.uiConfig.loggedBaseUrl);
-        incomePage.goTo('incomes');
+        incomePage.goTo('incomes/');
         await use(incomePage);
     }
 });
