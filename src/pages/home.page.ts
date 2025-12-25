@@ -7,9 +7,9 @@ export class HomePage {
         return this.page.locator('.user-info');
     }
 
-    public get pageHeader(): Locator {
-        return this.page.locator('//button[@aria-label="Close modal"]/../h2');
-    }
+    // public get pageHeader(): Locator {
+    //     return this.page.locator('//button[@aria-label="Close modal"]/../h2');
+    // }
 
     public readonly header: HeaderComponent;
     public readonly navigateMenu: NavigateComponent;

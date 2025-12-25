@@ -1,13 +1,14 @@
 import { test as base, Browser } from '@playwright/test';
-import { HomePage } from '../pages/index.page';
+import { HomePage, IncomesPage } from '../pages/index.page';
 import * as fs from 'fs';
 import { ConfigService } from '../services/config.service';
 import { apiWorld } from '../hooks/api-global-setup';
 
 interface AtlassianFixture {
-    loggedHomePage: HomePage;
     configService: ConfigService;
     homePage: HomePage;
+    loggedHomePage: HomePage;
+    incomesPage: IncomesPage;
 }
 
 const storageState = (workerId: number): string => `.auth/storage-state-worker-${workerId}.json`;
@@ -18,8 +19,12 @@ export const test = base.extend<AtlassianFixture>({
         const configService = new ConfigService();
         await use(configService);
     },
+    homePage: async ({ page, configService }, use) => {
+        const homePage = new HomePage(page, configService.config.uiConfig.loginBaseUrl);
+        await use(homePage);
+    },
     loggedHomePage: async ({ browser, configService }, use, testInfo) => {
-        // Збільшуємо таймаут для налаштування фікстури до 2 хвилин
+        // Збільшуємо таймаут для налаштування фікстури до 3 хвилин
         testInfo.setTimeout(180000);
 
         const workerId = test.info().workerIndex;
@@ -46,9 +51,10 @@ export const test = base.extend<AtlassianFixture>({
         await page.close();
         await context.close();
     },
-    homePage: async ({ page, configService }, use) => {
-        const homePage = new HomePage(page, configService.config.uiConfig.loginBaseUrl);
-        await use(homePage);
+    incomesPage: async ({ loggedHomePage, configService }, use) => {
+        const incomePage = new IncomesPage(loggedHomePage.page, configService.config.uiConfig.loggedBaseUrl);
+        incomePage.goTo('incomes');
+        await use(incomePage);
     }
 });
 
