@@ -28,7 +28,7 @@ export class HomePage {
         if (await this.isLoggedInLocator.isVisible()) {
             return;
         }
-        await this.header.clickSignInButton();
+        await this.header.clickSignIn();
         await this.loginModal.fillEmail(email);
         await this.loginModal.fillPassword(password);
         await this.loginModal.clickSubmit();
