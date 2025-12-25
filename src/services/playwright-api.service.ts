@@ -66,6 +66,20 @@ export class PlaywrightApiService implements IApiService<APIResponse> {
         return await requestContext.put(relativePath, { headers: { ...defaultHeaders, ...headers }, data: body });
     }
 
+    public async delete(uri: string, body: unknown, headers?: Record<string, string>): Promise<APIResponse> {
+        const defaultHeaders: Record<string, string> = {
+            ...this.getAuthHeader(),
+            ...{
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            }
+        };
+
+        const requestContext = await this.getRequestContext();
+        const relativePath = this.convertToRelativePath(uri);
+        return await requestContext.delete(relativePath, { headers: { ...defaultHeaders, ...headers }, data: body });
+    }
+
     private async getRequestContext(): Promise<APIRequestContext> {
         if (!this.apiRequestContext) {
             const baseUrl = this.baseUrl;

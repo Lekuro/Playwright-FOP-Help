@@ -5,7 +5,6 @@ import { screenshotPath } from '../../src/hooks/api-global-setup';
 test.describe('Home page tests', { tag: ['@logged-home'] }, () => {
     test('has title', async ({ loggedHomePage }) => {
         const isLogged = await loggedHomePage.isLoggedIn();
-        // await loggedHomePage.page.waitForTimeout(1000);
         expect(isLogged).toBeTruthy();
     });
 

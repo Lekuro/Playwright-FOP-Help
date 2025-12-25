@@ -7,10 +7,6 @@ export class HomePage {
         return this.page.locator('.user-info');
     }
 
-    // public get pageHeader(): Locator {
-    //     return this.page.locator('//button[@aria-label="Close modal"]/../h2');
-    // }
-
     public readonly header: HeaderComponent;
     public readonly navigateMenu: NavigateComponent;
     public readonly loginModal: LoginModal;
@@ -24,7 +20,7 @@ export class HomePage {
         this.loginModal = new LoginModal(this.page.locator('.sticky-header-nav>div>div'));
     }
 
-    public async login(email: string, password: string): Promise<void> {
+    public async quickLogin(email: string, password: string): Promise<void> {
         if (await this.isLoggedInLocator.isVisible()) {
             return;
         }
@@ -32,6 +28,10 @@ export class HomePage {
         await this.loginModal.fillEmail(email);
         await this.loginModal.fillPassword(password);
         await this.loginModal.clickSubmit();
+    }
+
+    public async login(email: string, password: string): Promise<void> {
+        await this.quickLogin(email, password);
         await this.isLoggedInLocator.waitFor();
         // await this.page.waitForTimeout(3000);
     }

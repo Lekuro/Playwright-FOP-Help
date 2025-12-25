@@ -76,13 +76,10 @@ test.describe('Incomes page tests', { tag: ['@incomes'] }, () => {
         let dialogMessage: string;
         let dialogType: string;
 
-        // Listen for dialog and capture details
         incomesPage.page.on('dialog', async (dialog) => {
             dialogMessage = dialog.message();
             dialogType = dialog.type();
             console.log(`Dialog type: ${dialogType}, message: ${dialogMessage}`);
-
-            // Verify the alert message
             expect(dialogMessage).toContain('Ви впевнені, що хочете видалити цей запис?');
 
             await dialog.accept(); // or dialog.dismiss()

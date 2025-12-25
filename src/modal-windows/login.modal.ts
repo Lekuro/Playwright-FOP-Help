@@ -1,6 +1,9 @@
 import { Locator } from '@playwright/test';
 
 export class LoginModal {
+    private get modalHeader(): Locator {
+        return this.loginModal.locator('h2');
+    }
     private get inputEmail(): Locator {
         return this.loginModal.locator('input[type="email"]');
     }
@@ -23,11 +26,11 @@ export class LoginModal {
         return this.loginModal.locator('h2');
     }
     public get errorEnterEmail(): Locator {
-        return this.loginModal.locator('input[type="email"] + p');
+        return this.loginModal.locator('#login-email + p');
     }
 
     public get errorEnterPassword(): Locator {
-        return this.loginModal.locator('input[type="password"] + p');
+        return this.loginModal.locator('#login-password + p');
     }
 
     public get errorEmailShouldContainSymbol(): Locator {
@@ -61,5 +64,9 @@ export class LoginModal {
     public async getTitle(): Promise<string> {
         const title = await this.title.textContent();
         return title?.trim() || '';
+    }
+    public async getHeader(): Promise<string> {
+        const header = await this.modalHeader.textContent();
+        return header?.trim() || '';
     }
 }

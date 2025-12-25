@@ -21,6 +21,7 @@ export const test = base.extend<AtlassianFixture>({
     },
     homePage: async ({ page, configService }, use) => {
         const homePage = new HomePage(page, configService.config.uiConfig.loginBaseUrl);
+        await homePage.goTo();
         await use(homePage);
     },
     loggedHomePage: async ({ browser, configService }, use, testInfo) => {

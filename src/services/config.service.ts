@@ -32,7 +32,6 @@ export class ConfigService {
             uiCookies: process.env.PLAYWRIGHT_COOKIES as string
         };
         this._config = { ...this._config, ...{ auth: authConfig } } as ConfigDto;
-        // console.log('Auth config loaded', this._config, authConfig);
     }
 
     private readFileConfig(): void {

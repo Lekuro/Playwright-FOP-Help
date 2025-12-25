@@ -20,11 +20,9 @@ export class FetchApiService implements IApiService<Response> {
                   .join('&')
             : '';
         const url = `${this.baseUrl}${uri}${queries}`;
-        // console.log('🌐 Fetch GET URL headers:', defaultHeaders);
         return await fetch(url, {
             method: 'GET',
             headers: defaultHeaders
-            // credentials: 'include'
         });
     }
 
@@ -35,7 +33,6 @@ export class FetchApiService implements IApiService<Response> {
             method: 'POST',
             body: JSON.stringify(body),
             headers: defaultHeaders
-            // credentials: 'include'
         });
     }
 
