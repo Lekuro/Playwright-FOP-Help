@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 import { test } from '../../src/fixtures/fop-help.fixture';
 import { screenshotPath } from '../../src/hooks/api-global-setup';
 
-test.describe('fixture-based test example', { tag: ['@home'] }, () => {
+test.describe('Home page tests', { tag: ['@home'] }, () => {
     test('has title', async ({ loggedHomePage }) => {
         const isLogged = await loggedHomePage.isLoggedIn();
         // await loggedHomePage.page.waitForTimeout(1000);
