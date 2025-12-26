@@ -26,7 +26,7 @@ export class IncomesPage extends HomePage {
         return new IncomeRow(this.page.locator('tbody>tr').nth(rowIndex));
     }
     public async countRows(): Promise<number> {
-        await this.page.waitForSelector('tbody>tr', { state: 'visible' });
+        await this.page.waitForSelector('tbody>tr:last-child', { state: 'visible', timeout: 5000  });
         return await this.page.locator('tbody>tr').count();
     }
 }
