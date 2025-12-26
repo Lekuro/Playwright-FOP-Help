@@ -1,0 +1,562 @@
+{
+	"api_requests_responses": {
+		"base_url": "https://new.fophelp.pro/api",
+		"authentication": {
+			"login": {
+				"endpoint": "POST /auth/login",
+				"request": {
+					"email": "user@example.com",
+					"password": "SecurePassword123!"
+				},
+				"response_success": {
+					"success": true,
+					"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzEyMyIsImlhdCI6MTczMTQyNDAwMH0.abc123",
+					"user": {
+						"id": "user_123",
+						"email": "user@example.com",
+						"fop_group": "Група 1",
+						"is_vat_payer": false,
+						"is_general_system": false
+					}
+				},
+				"response_error": {
+					"error": "Invalid username or password",
+					"code": "INVALID_CREDENTIALS"
+				}
+			},
+			"register": {
+				"endpoint": "POST /auth/register",
+				"request": {
+					"email": "newuser@example.com",
+					"password": "SecurePassword123!",
+					"password_confirm": "SecurePassword123!",
+					"fop_group": "Група 1",
+					"is_vat_payer": false,
+					"is_general_system": false
+				},
+				"response_success": {
+					"success": true,
+					"message": "User registered successfully",
+					"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzQ1NiIsImlhdCI6MTczMTQyNDAwMH0.xyz789",
+					"user": {
+						"id": "user_456",
+						"email": "newuser@example.com",
+						"fop_group": "Група 1"
+					}
+				},
+				"response_error": {
+					"error": "Validation failed",
+					"code": "VALIDATION_ERROR",
+					"errors": {
+						"email": [
+							"Email already exists"
+						],
+						"password": [
+							"Password must contain special character"
+						]
+					}
+				}
+			},
+			"forgot_password": {
+				"endpoint": "POST /auth/forgot-password",
+				"request": {
+					"email": "user@example.com"
+				},
+				"response_success": {
+					"success": true,
+					"message": "Password reset link sent to your email"
+				}
+			}
+		},
+		"incomes": {
+			"get_all": {
+				"endpoint": "GET /incomes?year=2025&month=6",
+				"headers": {
+					"Authorization": "Bearer <token>",
+					"Content-Type": "application/json"
+				},
+				"response_success": {
+					"success": true,
+					"data": {
+						"month": "2025-06",
+						"records": [
+							{
+								"id": "income_001",
+								"date": "15.06.2025",
+								"amount": 50000,
+								"currency": "UAH",
+								"is_cash": true,
+								"comment": "Розробка веб-сайту для клієнта"
+							},
+							{
+								"id": "income_002",
+								"date": "10.06.2025",
+								"amount": 25000,
+								"currency": "UAH",
+								"is_cash": false,
+								"comment": "Консультація з налаштування сервера"
+							},
+							{
+								"id": "income_003",
+								"date": "05.06.2025",
+								"amount": 1200,
+								"currency": "USD",
+								"is_cash": false,
+								"comment": "Фріланс проект - верстка"
+							}
+						],
+						"summary": {
+							"total_records": 3,
+							"totals_by_currency": {
+								"UAH": 75000,
+								"USD": 1200,
+								"EUR": 0
+							}
+						}
+					}
+				}
+			},
+			"create": {
+				"endpoint": "POST /incomes",
+				"headers": {
+					"Authorization": "Bearer <token>",
+					"Content-Type": "application/json"
+				},
+				"request": {
+					"date": "15.06.2025",
+					"amount": 50000,
+					"currency": "UAH",
+					"is_cash": true,
+					"comment": "Розробка веб-сайту для клієнта"
+				},
+				"response_success": {
+					"success": true,
+					"data": {
+						"id": "income_789",
+						"date": "15.06.2025",
+						"amount": 50000,
+						"currency": "UAH",
+						"is_cash": true,
+						"comment": "Розробка веб-сайту для клієнта",
+						"created_at": "2025-06-15T10:30:00Z",
+						"updated_at": "2025-06-15T10:30:00Z"
+					}
+				}
+			},
+			"update": {
+				"endpoint": "PUT /incomes/:id",
+				"headers": {
+					"Authorization": "Bearer <token>",
+					"Content-Type": "application/json"
+				},
+				"request": {
+					"date": "15.06.2025",
+					"amount": 55000,
+					"currency": "UAH",
+					"is_cash": true,
+					"comment": "Розробка веб-сайту для клієнта (updated)"
+				},
+				"response_success": {
+					"success": true,
+					"data": {
+						"id": "income_789",
+						"date": "15.06.2025",
+						"amount": 55000,
+						"currency": "UAH",
+						"is_cash": true,
+						"comment": "Розробка веб-сайту для клієнта (updated)",
+						"updated_at": "2025-06-15T11:45:00Z"
+					}
+				}
+			},
+			"delete": {
+				"endpoint": "DELETE /incomes/:id",
+				"headers": {
+					"Authorization": "Bearer <token>"
+				},
+				"response_success": {
+					"success": true,
+					"message": "Income deleted successfully",
+					"id": "income_789"
+				}
+			}
+		},
+		"expenses": {
+			"get_all": {
+				"endpoint": "GET /expenses?year=2025&month=9",
+				"headers": {
+					"Authorization": "Bearer <token>",
+					"Content-Type": "application/json"
+				},
+				"response_success": {
+					"success": true,
+					"data": {
+						"month": "2025-09",
+						"records": [
+							{
+								"id": "expense_001",
+								"date": "10.09.2025",
+								"amount": 15000,
+								"currency": "UAH",
+								"is_cash": false,
+								"comment": "Оплата за оренду офісу"
+							},
+							{
+								"id": "expense_002",
+								"date": "20.08.2025",
+								"amount": 8900,
+								"currency": "UAH",
+								"is_cash": false,
+								"comment": "Планові витрати на обладнання"
+							}
+						],
+						"summary": {
+							"total_records": 2,
+							"total_amount": 23900
+						}
+					}
+				}
+			},
+			"create": {
+				"endpoint": "POST /expenses",
+				"headers": {
+					"Authorization": "Bearer <token>",
+					"Content-Type": "application/json"
+				},
+				"request": {
+					"date": "10.09.2025",
+					"amount": 15000,
+					"currency": "UAH",
+					"is_cash": false,
+					"comment": "Оплата за оренду офісу"
+				},
+				"response_success": {
+					"success": true,
+					"data": {
+						"id": "expense_123",
+						"date": "10.09.2025",
+						"amount": 15000,
+						"currency": "UAH",
+						"is_cash": false,
+						"comment": "Оплата за оренду офісу",
+						"created_at": "2025-09-10T09:15:00Z"
+					}
+				}
+			}
+		},
+		"taxes": {
+			"get_all": {
+				"endpoint": "GET /taxes?year=2025&quarter=Q2",
+				"headers": {
+					"Authorization": "Bearer <token>"
+				},
+				"response_success": {
+					"success": true,
+					"data": {
+						"year": 2025,
+						"quarter": "Q2",
+						"months": [
+							{
+								"month": "Квітень",
+								"income": 135000,
+								"expenses": 42000,
+								"taxes": {
+									"єп": 8100,
+									"єсв": 1584,
+									"вп": 1350,
+									"пдв": 0
+								},
+								"total_tax": 11034,
+								"paid_status": "unpaid"
+							},
+							{
+								"month": "Травень",
+								"income": 142000,
+								"expenses": 38000,
+								"taxes": {
+									"єп": 8520,
+									"єсв": 1584,
+									"вп": 1420,
+									"пдв": 0
+								},
+								"total_tax": 11524,
+								"paid_status": "unpaid"
+							},
+							{
+								"month": "Червень",
+								"income": 156000,
+								"expenses": 45000,
+								"taxes": {
+									"єп": 9360,
+									"єсв": 1584,
+									"вп": 1560,
+									"пдв": 0
+								},
+								"total_tax": 12504,
+								"paid_status": "unpaid"
+							}
+						],
+						"quarterly_totals": {
+							"total_income": 433000,
+							"total_expenses": 125000,
+							"total_taxes": 35062
+						}
+					}
+				}
+			},
+			"get_pending": {
+				"endpoint": "GET /taxes/pending",
+				"headers": {
+					"Authorization": "Bearer <token>"
+				},
+				"response_success": {
+					"success": true,
+					"data": [
+						{
+							"id": "tax_001",
+							"quarter": "Q2",
+							"month": "Червень",
+							"amount": 12504,
+							"due_date": "20.07.2025",
+							"status": "unpaid"
+						}
+					]
+				}
+			},
+			"mark_paid": {
+				"endpoint": "POST /taxes/:id/mark-paid",
+				"headers": {
+					"Authorization": "Bearer <token>",
+					"Content-Type": "application/json"
+				},
+				"request": {
+					"payment_date": "15.06.2025"
+				},
+				"response_success": {
+					"success": true,
+					"data": {
+						"id": "tax_123",
+						"status": "paid",
+						"payment_date": "15.06.2025",
+						"updated_at": "2025-06-15T14:20:00Z"
+					}
+				}
+			}
+		},
+		"reports": {
+			"get_all": {
+				"endpoint": "GET /reports?year=2025",
+				"headers": {
+					"Authorization": "Bearer <token>"
+				},
+				"response_success": {
+					"success": true,
+					"data": {
+						"year": 2025,
+						"reports": [
+							{
+								"id": "report_001",
+								"quarter": "Q1",
+								"income": 371000,
+								"expenses": 107000,
+								"taxes": {
+									"єп": 22260,
+									"єсв": 4752,
+									"вп": 3710,
+									"пдв": 0
+								},
+								"filing_deadline": "15.05.2025",
+								"status": "submitted",
+								"submission_date": "15.05.2025"
+							},
+							{
+								"id": "report_002",
+								"quarter": "Q2",
+								"income": 433000,
+								"expenses": 125000,
+								"taxes": {
+									"єп": 25980,
+									"єсв": 4752,
+									"вп": 4330,
+									"пдв": 0
+								},
+								"filing_deadline": "14.08.2025",
+								"status": "pending",
+								"submission_date": null
+							}
+						]
+					}
+				}
+			},
+			"get_current": {
+				"endpoint": "GET /reports/current",
+				"headers": {
+					"Authorization": "Bearer <token>"
+				},
+				"response_success": {
+					"success": true,
+					"data": [
+						{
+							"id": "report_002",
+							"quarter": "Q2",
+							"income": 433000,
+							"expenses": 125000,
+							"total_tax": 35062,
+							"filing_deadline": "14.08.2025",
+							"status": "pending"
+						}
+					]
+				}
+			},
+			"submit_report": {
+				"endpoint": "POST /reports/:id/submit",
+				"headers": {
+					"Authorization": "Bearer <token>",
+					"Content-Type": "application/json"
+				},
+				"request": {
+					"submission_date": "14.08.2025"
+				},
+				"response_success": {
+					"success": true,
+					"data": {
+						"id": "report_002",
+						"status": "submitted",
+						"submission_date": "14.08.2025",
+						"updated_at": "2025-08-14T16:30:00Z"
+					}
+				}
+			}
+		},
+		"user": {
+			"get_profile": {
+				"endpoint": "GET /user/profile",
+				"headers": {
+					"Authorization": "Bearer <token>"
+				},
+				"response_success": {
+					"success": true,
+					"data": {
+						"id": "user_123",
+						"email": "user@example.com",
+						"fop_group": "Група 1",
+						"is_vat_payer": false,
+						"is_general_system": false,
+						"created_at": "2024-12-01T10:00:00Z"
+					}
+				}
+			},
+			"update_profile": {
+				"endpoint": "PUT /user/profile",
+				"headers": {
+					"Authorization": "Bearer <token>",
+					"Content-Type": "application/json"
+				},
+				"request": {
+					"fop_group": "Група 2",
+					"is_vat_payer": true,
+					"is_general_system": true
+				},
+				"response_success": {
+					"success": true,
+					"data": {
+						"id": "user_123",
+						"email": "user@example.com",
+						"fop_group": "Група 2",
+						"is_vat_payer": true,
+						"is_general_system": true,
+						"updated_at": "2025-06-15T12:00:00Z"
+					}
+				}
+			}
+		},
+		"demo": {
+			"get_demo_data": {
+				"endpoint": "GET /demo/data",
+				"headers": {
+					"Content-Type": "application/json"
+				},
+				"response_success": {
+					"success": true,
+					"mode": "demo",
+					"data": {
+						"incomes": [
+							{
+								"date": "15.06.2025",
+								"amount": 50000,
+								"currency": "UAH",
+								"is_cash": true,
+								"comment": "Розробка веб-сайту для клієнта"
+							},
+							{
+								"date": "10.06.2025",
+								"amount": 25000,
+								"currency": "UAH",
+								"is_cash": false,
+								"comment": "Консультація з налаштування сервера"
+							}
+						],
+						"expenses": [
+							{
+								"date": "10.09.2025",
+								"amount": 15000,
+								"currency": "UAH",
+								"is_cash": false,
+								"comment": "Оплата за оренду офісу"
+							},
+							{
+								"date": "20.08.2025",
+								"amount": 8900,
+								"currency": "UAH",
+								"is_cash": false,
+								"comment": "Планові витрати на обладнання"
+							}
+						],
+						"message": "Демо-режим: Увійдіть для роботи з реальними даними"
+					}
+				}
+			}
+		},
+		"error_responses": {
+			"unauthorized": {
+				"status_code": 401,
+				"response": {
+					"error": "Unauthorized",
+					"code": "AUTH_REQUIRED",
+					"message": "Authentication token required or expired"
+				}
+			},
+			"forbidden": {
+				"status_code": 403,
+				"response": {
+					"error": "Forbidden",
+					"code": "ACCESS_DENIED",
+					"message": "You don't have permission to access this resource"
+				}
+			},
+			"not_found": {
+				"status_code": 404,
+				"response": {
+					"error": "Not Found",
+					"code": "RESOURCE_NOT_FOUND",
+					"message": "The requested resource was not found"
+				}
+			},
+			"validation_error": {
+				"status_code": 422,
+				"response": {
+					"error": "Validation failed",
+					"code": "VALIDATION_ERROR",
+					"errors": {
+						"amount": [
+							"Amount must be a positive number"
+						],
+						"date": [
+							"Invalid date format"
+						]
+					}
+				}
+			}
+		}
+	}
+}

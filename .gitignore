@@ -1,0 +1,11 @@
+*.vscode/
+*.idea/
+*node_modules/
+*allure-results/
+*allure-report/
+*playwright-report/
+*playwright-reports/
+*test-results/
+*trash/
+.env
+.auth/

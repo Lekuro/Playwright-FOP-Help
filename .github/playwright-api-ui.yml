@@ -1,0 +1,130 @@
+name: Playwright CI Tests Api & UI
+
+on:
+    push:
+        branches: [main, master, dev]
+    # pull_request:
+    #     branches: [main]
+
+permissions:
+    contents: write
+    checks: write
+    pull-requests: write
+    actions: read
+    pages: write
+    id-token: write
+
+jobs:
+    ui-tests:
+        timeout-minutes: 60
+        runs-on: ubuntu-latest
+        env:
+            BUILD_FOLDER: ./lesson22-CI-CD
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 24.x
+
+            - name: Install dependencies
+              run: npm ci
+              working-directory: ${{ env.BUILD_FOLDER }}
+
+            - name: Install Playwright Browsers
+              run: npx playwright install --with-deps chromium
+              working-directory: ${{ env.BUILD_FOLDER }}
+
+            - name: Run UI tests
+              run: npm run test:ui
+              working-directory: ${{ env.BUILD_FOLDER }}
+
+            - uses: daun/playwright-report-summary@v3
+              if: always()
+              with:
+                  report-file: ${{ env.BUILD_FOLDER }}/test-results/test-results.json
+                  report-tag: 'UI Test Results Summary'
+                  job-summary: true
+                  create-comment: true
+
+            - uses: actions/upload-artifact@v4
+              if: ${{ !cancelled() }}
+              with:
+                  name: ui-test-results
+                  path: ${{ env.BUILD_FOLDER }}/test-results
+                  retention-days: 30
+
+            - uses: actions/upload-artifact@v4
+              if: ${{ !cancelled() }}
+              with:
+                  name: ui-mochawesome-report
+                  path: ${{ env.BUILD_FOLDER }}/mochawesome-report
+                  retention-days: 30
+
+            - name: Generate Allure Single-file report (UI)
+              run: |
+                  npx allure generate allure-results --single-file --clean -o allure-report-single-file
+              working-directory: ${{ env.BUILD_FOLDER }}
+
+            - uses: actions/upload-artifact@v4
+              if: ${{ !cancelled() }}
+              with:
+                  name: ui-allure-report-single-file
+                  path: ${{ env.BUILD_FOLDER }}/allure-report-single-file
+                  retention-days: 30
+
+    api-tests:
+        timeout-minutes: 60
+        runs-on: ubuntu-latest
+        env:
+            BUILD_FOLDER: ./lesson22-CI-CD
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 24.x
+
+            - name: Install dependencies
+              run: npm ci
+              working-directory: ${{ env.BUILD_FOLDER }}
+
+            - name: Install Playwright Browsers
+              run: npx playwright install --with-deps chromium
+              working-directory: ${{ env.BUILD_FOLDER }}
+
+            - name: Run API tests
+              run: npm run test:api
+              working-directory: ${{ env.BUILD_FOLDER }}
+
+            - uses: daun/playwright-report-summary@v3
+              if: always()
+              with:
+                  report-file: ${{ env.BUILD_FOLDER }}/test-results/test-results.json
+                  report-tag: 'API Test Results Summary'
+                  job-summary: true
+                  create-comment: true
+
+            - uses: actions/upload-artifact@v4
+              if: ${{ !cancelled() }}
+              with:
+                  name: api-test-results
+                  path: ${{ env.BUILD_FOLDER }}/test-results
+                  retention-days: 30
+
+            - uses: actions/upload-artifact@v4
+              if: ${{ !cancelled() }}
+              with:
+                  name: api-mochawesome-report
+                  path: ${{ env.BUILD_FOLDER }}/mochawesome-report
+                  retention-days: 30
+
+            - name: Generate Allure Single-file report (API)
+              run: |
+                  npx allure generate allure-results --single-file --clean -o allure-report-single-file
+              working-directory: ${{ env.BUILD_FOLDER }}
+
+            - uses: actions/upload-artifact@v4
+              if: ${{ !cancelled() }}
+              with:
+                  name: api-allure-report-single-file
+                  path: ${{ env.BUILD_FOLDER }}/allure-report-single-file
+                  retention-days: 30
