@@ -11,6 +11,7 @@ export default async function globalSetup(): Promise<void> {
             password: apiWorld.configService.config.auth.password
         };
         console.log('🔐 Спроба логіну...');
+        console.log(`🔐 Логін з email: ${loginData.username}, password: ${loginData.password}`);
         const [response, loginJsonResponse] = await apiWorld.loginApi.login(loginData);
 
         if (!response.ok) {
