@@ -19,7 +19,7 @@ jobs:
         timeout-minutes: 60
         runs-on: ubuntu-latest
         env:
-            BUILD_FOLDER: ./lesson22-CI-CD
+            BUILD_FOLDER: Playwright-FOP-Help
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
@@ -76,7 +76,7 @@ jobs:
         timeout-minutes: 60
         runs-on: ubuntu-latest
         env:
-            BUILD_FOLDER: ./lesson22-CI-CD
+            BUILD_FOLDER: Playwright-FOP-Help
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
